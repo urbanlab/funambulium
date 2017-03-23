@@ -1,0 +1,7 @@
+ofxAugmenta
+ofxEasing
+ofxFX
+ofxMSAInteractiveObject
+ofxOsc
+ofxSimpleGuiToo
+ofxXmlSettings
