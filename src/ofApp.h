@@ -1,9 +1,26 @@
+//
+//  window.h
+//  funambulus
+//
+//  Created by Benjamin Petit on 23/03/2017.
+//
+//
+
 #pragma once
 
 #include "ofMain.h"
 
-class ofApp : public ofBaseApp{
+#include "settings.h"
+#include "window.h"
 
+#include "ofxAugmenta.h"
+
+#define DEBUG
+
+#define AU_OSC_PORT 12000
+
+class ofApp : public ofBaseApp
+{
 	public:
 		void setup();
 		void update();
@@ -20,5 +37,10 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		
+    
+        Augmenta::Receiver _auReceiver;
+        vector<Augmenta::Person*> _people;
+    
+        Window _floor;
+        Window _wall;
 };
