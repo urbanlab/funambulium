@@ -11,12 +11,12 @@
 
 #include "ofxQuadWarp.h"
 
-class Window
+class WWindow
 {
     
 public:
     
-    Window()
+    WWindow()
     {
     }
     

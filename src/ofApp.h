@@ -44,8 +44,8 @@ class ofApp : public ofBaseApp
         Augmenta::Receiver _auReceiver;
         vector<Augmenta::Person*> _people;
     
-        Window _floor;
-        Window _wall;
+        WWindow _floor;
+        WWindow _wall;
     
         Kid _kid;
         Scenarii _scenarii;
