@@ -511,7 +511,7 @@ public:
         
         for(auto p : people)
         {
-            repulseParticles(ofVec2f(p->centroid.x*S()._xRes,p->centroid.x*S()._yRes));
+            repulseParticles(ofVec2f(p->centroid.x*S()._xRes,p->centroid.y*S()._yRes));
         }
         
         while(_fishes.size()<FS()._maxFishes)
