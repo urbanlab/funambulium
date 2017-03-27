@@ -20,9 +20,12 @@ void ofApp::setup()
     _wall._warper.load("quadwarpwall.xml");
     
     S().setup();
+
+    _scenarii.setup();
     
     gui.setup();
     S().setupGui();
+    _scenarii.setupGui();
     gui.loadFromXML();
     gui.setDefaultKeys(true);
     
@@ -30,8 +33,6 @@ void ofApp::setup()
     ofHideCursor();
     //CGDisplayHideCursor(NULL);
     #endif
-    
-    _scenarii.setup();
 }
 
 //--------------------------------------------------------------

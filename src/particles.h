@@ -9,6 +9,33 @@
 #ifndef particles_h
 #define particles_h
 
+#include "ofxMovieClip.h"
+
+class Species
+{
+    
+public:
+    Species(string dir,string name)
+    {
+        setup(dir,name);
+    }
+    
+    ~Species()
+    {
+    }
+    
+    void setup(string dir,string name)
+    {
+        _imgSeq.loadAndCreateSequence(dir.c_str(),name.c_str());
+        _hasImgSeq = _imgSeq.assetCollectionSize>0;
+    }
+    
+public:
+    
+    ofxTextureImageSequenceLoader _imgSeq;
+    bool _hasImgSeq;
+};
+
 class Particles
 {
     
@@ -19,61 +46,38 @@ public:
         
     }
     
-    void setup()
+    virtual void setup(string path)
     {
         
     }
     
-    void update()
+    virtual void setupGui()
     {
         
     }
     
-    void draw()
+    virtual void reset()
     {
         
     }
     
-    void drawDebug()
+    virtual void update(vector<Augmenta::Person*>& people)
     {
         
     }
     
-public:
-    
-};
-
-class Leaves : public Particles
-{
-    
-public:
-    
-    Leaves()
+    virtual void draw()
     {
         
     }
     
-    void setup()
-    {
-        
-    }
-    
-    void update()
-    {
-        
-    }
-    
-    void draw()
-    {
-        
-    }
-    
-    void drawDebug()
+    virtual void drawDebug()
     {
         
     }
     
 public:
+    
     
 };
 

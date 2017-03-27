@@ -2,6 +2,7 @@ ofxAugmenta
 ofxEasing
 ofxFX
 ofxMSAInteractiveObject
+ofxMovieClip
 ofxOpenCv
 ofxOsc
 ofxQuadWarp

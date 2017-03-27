@@ -11,7 +11,9 @@
 
 #include "floor.h"
 #include "horizon.h"
+
 #include "particles.h"
+#include "fishes.h"
 
 class Scenario
 {
@@ -33,6 +35,13 @@ public:
         _earth.setup(_path);
         
         _pos = ofPoint(-0.5,0.5);
+    }
+    
+    void setupGui()
+    {
+        gui.addPage(_path);
+        gui.addTitle("Particles");
+        _particles->setupGui();
     }
     
     void start()
@@ -58,11 +67,17 @@ public:
         
         _horizon.update(_pos.x);
         _earth.update(_pos.x);
+        
+        if(_particles != NULL)
+            _particles->update(people);
     }
     
     void drawFloor()
     {
         _earth.draw();
+        
+        if(_particles != NULL)
+            _particles->draw();
     }
     
     void drawWall()
@@ -81,12 +96,14 @@ public:
     
     ofPoint _pos;
     
+    Particles* _particles;
+    
     Horizon _horizon;
     Floor _earth;
     
 };
 
-class Scenarii : public vector<Scenario>
+class Scenarii
 {
     
 public:
@@ -98,9 +115,19 @@ public:
     void setup()
     {
         _scenarii.push_back(Scenario("0_UNLOCK"));
+        _scenarii.back()._particles = new Fishes;
+        _scenarii.back()._particles->setup("0_UNLOCK");
         
         _currentScenario = 0;
         _started = false;
+    }
+    
+    void setupGui()
+    {
+        for(auto s : _scenarii)
+        {
+            s.setupGui();
+        }
     }
     
     void start()

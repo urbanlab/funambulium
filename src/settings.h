@@ -27,6 +27,9 @@ public:
     {
         _debug = false;
         _warped = false;
+        
+        _xRes = RES_X;
+        _yRes = RES_Y;
     }
     
     void setupGui()
@@ -62,6 +65,8 @@ public:
     
     float _smoothPos;
     
+    float _xRes;
+    float _yRes;
 };
 
 //Allow easy access to zone settings
