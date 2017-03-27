@@ -13,6 +13,7 @@
 #include "horizon.h"
 
 #include "particles.h"
+#include "leaves.h"
 #include "fishes.h"
 
 class Scenario
@@ -115,7 +116,8 @@ public:
     void setup()
     {
         _scenarii.push_back(Scenario("0_UNLOCK"));
-        _scenarii.back()._particles = new Fishes;
+        //_scenarii.back()._particles = new Fishes;
+        _scenarii.back()._particles = new Leaves;
         _scenarii.back()._particles->setup("0_UNLOCK");
         
         _currentScenario = 0;
