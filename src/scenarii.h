@@ -18,23 +18,56 @@ class Scenario
 
 public:
     
-    Scenario()
+    Scenario(string path)
     {
-        
+        setup(path);
     }
     
-    void setup()
+    void setup(string path)
     {
+        cout<<"SCENARIO: "<<path<<endl;
         
+        _path = path;
+        
+        _horizon.setup(_path);
+        _earth.setup(_path);
+        
+        _pos = ofPoint(-0.5,0.5);
     }
     
-    void update()
+    void start()
     {
+        cout<<"\tSTARTING SCENARIO: "<<_path<<endl;
+        
+        _horizon.start();
+        _earth.start();
     }
     
-    void draw()
+    void stop()
     {
+        _horizon.stop();
+        _earth.stop();
+    }
+    
+    void update(vector<Augmenta::Person*>& people)
+    {
+        if(people.size() > 0)
+        {
+            _pos = people[0]->centroid;
+        }
         
+        _horizon.update(_pos.x);
+        _earth.update(_pos.x);
+    }
+    
+    void drawFloor()
+    {
+        _earth.draw();
+    }
+    
+    void drawWall()
+    {
+        _horizon.draw();
     }
     
     void drawDebug()
@@ -44,30 +77,90 @@ public:
     
 public:
     
+    string _path;
+    
+    ofPoint _pos;
+    
+    Horizon _horizon;
+    Floor _earth;
+    
 };
 
-class Scenarii
+class Scenarii : public vector<Scenario>
 {
     
 public:
     
     Scenarii()
     {
-        
     }
     
     void setup()
     {
-    
+        _scenarii.push_back(Scenario("0_UNLOCK"));
+        
+        _currentScenario = 0;
+        _started = false;
     }
     
-    void update()
+    void start()
     {
+        cout<<"STARTING EXPERIENCE"<<endl;
+        
+        _currentScenario = 0;
+        _started = true;
+        
+        _scenarii[_currentScenario].start();
     }
     
-    void draw()
+    void stop()
     {
-
+        _scenarii[_currentScenario].stop();
+        
+        _currentScenario = 0;
+        _started = false;
+    }
+    
+    void next()
+    {
+        _scenarii[_currentScenario].stop();
+        
+        _currentScenario++;
+        
+        if(_currentScenario >= _scenarii.size())
+            stop();
+        else
+            _scenarii[_currentScenario].start();
+    }
+    
+    void restart()
+    {
+        stop();
+        start();
+    }
+    
+    void update(vector<Augmenta::Person*>& people)
+    {
+        if(_started)
+        {
+            _scenarii[_currentScenario].update(people);
+        }
+    }
+    
+    void drawFloor()
+    {
+        if(_started)
+        {
+            _scenarii[_currentScenario].drawFloor();
+        }
+    }
+    
+    void drawWall()
+    {
+        if(_started)
+        {
+            _scenarii[_currentScenario].drawWall();
+        }
     }
     
     void drawDebug()
@@ -76,6 +169,12 @@ public:
     }
     
 public:
+    
+    vector<Scenario> _scenarii;
+    
+    int _currentScenario;
+    
+    bool _started;
     
 };
 

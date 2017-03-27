@@ -9,6 +9,8 @@
 #ifndef window_h
 #define window_h
 
+#include "ofxQuadWarp.h"
+
 class Window
 {
     
@@ -24,7 +26,19 @@ public:
         _size = size;
         _totalSize = totalSize;
         
+        update();
+        
         _fbo.allocate(_totalSize.x*_size.x,_totalSize.y*_size.y,GL_RGBA);
+        
+        int w = _totalSize.x*_size.x;
+        int h = _totalSize.y*_size.y;
+        
+        _warper.setSourceRect(ofRectangle(0, 0,w,h));              // this is the source rectangle which is the size of the image and located at ( 0, 0 )
+        _warper.setTopLeftCornerPosition(ofPoint(_x,_y));             // this is position of the quad warp corners, centering the image on the screen.
+        _warper.setTopRightCornerPosition(ofPoint(_x+_w,_y));        // this is position of the quad warp corners, centering the image on the screen.
+        _warper.setBottomLeftCornerPosition(ofPoint(_x,_y+_h));      // this is position of the quad warp corners, centering the image on the screen.
+        _warper.setBottomRightCornerPosition(ofPoint(_x+_w,_y+_h)); // this is position of the quad warp corners, centering the image on the screen.
+        _warper.setup();
     }
     
     void update()
@@ -67,6 +81,22 @@ public:
     
     void draw()
     {
+        //======================== get our quad warp matrix.
+        
+        ofMatrix4x4 mat = _warper.getMatrix();
+        
+        //======================== use the matrix to transform our fbo.
+        
+        ofPushMatrix();
+        ofMultMatrix(mat);
+        ofSetColor(255);
+        //_fbo.draw(_x,_y,_w,_h);
+        _fbo.draw(0,0);
+        ofPopMatrix();
+    }
+    
+    void drawUnwarped()
+    {
         ofSetColor(255);
         _fbo.draw(_x,_y,_w,_h);
     }
@@ -77,6 +107,18 @@ public:
         ofNoFill();
         ofDrawRectangle(_x,_y,_w,_h);
         ofFill();
+        
+        if(S()._warped)
+        {
+            ofSetColor(ofColor::magenta);
+            _warper.drawQuadOutline();
+            ofSetColor(ofColor::yellow);
+            _warper.drawCorners();
+            ofSetColor(ofColor::magenta);
+            _warper.drawHighlightedCorner();
+            ofSetColor(ofColor::red);
+            _warper.drawSelectedCorner();
+        }
     }
     
 public:
@@ -88,6 +130,8 @@ public:
     float _x,_y,_w,_h;
     
     ofFbo _fbo;
+    
+    ofxQuadWarp _warper;
 };
 
 #endif /* window_h */

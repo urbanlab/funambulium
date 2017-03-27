@@ -43,4 +43,38 @@ public:
     
 };
 
+class Leaves : public Particles
+{
+    
+public:
+    
+    Leaves()
+    {
+        
+    }
+    
+    void setup()
+    {
+        
+    }
+    
+    void update()
+    {
+        
+    }
+    
+    void draw()
+    {
+        
+    }
+    
+    void drawDebug()
+    {
+        
+    }
+    
+public:
+    
+};
+
 #endif /* particles_h */

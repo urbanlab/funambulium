@@ -11,6 +11,9 @@
 
 #include "ofxSimpleGuiToo.h"
 
+#define RES_X 1280
+#define RES_Y 800
+
 class Settings
 {
     
@@ -23,11 +26,13 @@ public:
     void setup()
     {
         _debug = false;
+        _warped = false;
     }
     
     void setupGui()
     {
         gui.addTitle("Settings");
+        gui.addSlider("SmoothPos",_smoothPos,0.0,1.0);
     }
     
     void update()
@@ -40,10 +45,7 @@ public:
     
     void keyReleased(int key)
     {
-        if(key == 'f')
-            ofToggleFullscreen();
-        if(key == 'd')
-            _debug = !_debug;
+        
     }
     
     //Singleton implementation
@@ -56,6 +58,9 @@ public:
 public:
     
     bool _debug;
+    bool _warped;
+    
+    float _smoothPos;
     
 };
 

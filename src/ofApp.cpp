@@ -14,11 +14,10 @@ void ofApp::setup()
     _auReceiver.connect(AU_OSC_PORT);
     //ofxAddAugmentaListeners(this);
     
-    _floor.setup(ofPoint(0.0,0.0), ofPoint(0.5,1.0), ofPoint(1280*2,768));
-    _wall.setup(ofPoint(0.5,0.0), ofPoint(0.5,1.0), ofPoint(1280*2,768));
-    
-    _floor.update();
-    _wall.update();
+    _floor.setup(ofPoint(0.0,0.0), ofPoint(0.5,1.0), ofPoint(RES_X*2,RES_Y));
+    _wall.setup(ofPoint(0.5,0.0), ofPoint(0.5,1.0), ofPoint(RES_X*2,RES_Y));
+    _floor._warper.load("quadwarpfloor.xml");
+    _wall._warper.load("quadwarpwall.xml");
     
     S().setup();
     
@@ -31,6 +30,15 @@ void ofApp::setup()
     ofHideCursor();
     //CGDisplayHideCursor(NULL);
     #endif
+    
+    _scenarii.setup();
+}
+
+//--------------------------------------------------------------
+void ofApp::exit()
+{
+    _floor._warper.save("quadwarpfloor.xml");
+    _wall._warper.save("quadwarpwall.xml");
 }
 
 //--------------------------------------------------------------
@@ -39,11 +47,15 @@ void ofApp::update()
     // Get the person data
     _people = _auReceiver.getPeople();
     
+    _scenarii.update(_people);
+    
     ofEnableAlphaBlending();
  
     _floor.begin();
     
     ofSetColor(255);
+    
+    _scenarii.drawFloor();
     
     if(S()._debug)
     {
@@ -59,6 +71,8 @@ void ofApp::update()
     _wall.begin();
     
     ofSetColor(255);
+    
+    _scenarii.drawWall();
     
     if(S()._debug)
     {
@@ -102,7 +116,8 @@ void ofApp::draw()
     
     ofSetColor(255);
     
-    
+    if(S()._warped)
+    {
 #ifndef DEBUG
     _floor._fbo.draw(0.0,0.0,1280.0*2.0,800.0);
     _wall._fbo.draw(1280.0,0.0,1280.0*2.0,800.0);
@@ -110,6 +125,17 @@ void ofApp::draw()
     _floor.draw();
     _wall.draw();
 #endif
+    }
+    else
+    {
+#ifndef DEBUG
+        _floor._fbo.drawUnwarped(0.0,0.0,1280.0*2.0,800.0);
+        _wall._fbo.drawUnwarped(1280.0,0.0,1280.0*2.0,800.0);
+#else
+        _floor.drawUnwarped();
+        _wall.drawUnwarped();
+#endif
+    }
     
     if(S()._debug)
     {
@@ -131,7 +157,73 @@ void ofApp::keyPressed(int key)
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
 {
-    S().keyReleased(key);
+    if(key == 's')
+        _scenarii.start();
+    if(key == 'r')
+        _scenarii.restart();
+    
+    if(key == 'f')
+        ofToggleFullscreen();
+    
+    if(key == 'd')
+    {
+        S()._debug = !S()._debug;
+        
+        if(S()._warped)
+        {
+            if(S()._debug)
+            {
+                _floor._warper.show();
+                _wall._warper.hide();
+            }
+            else
+            {
+                _floor._warper.hide();
+                _wall._warper.hide();
+            }
+        }
+    }
+    
+    if(key == 'w')
+    {
+        if(_floor._warper.isShowing())
+        {
+            _floor._warper.hide();
+            _wall._warper.show();
+        }
+        else
+        {
+            _floor._warper.show();
+            _wall._warper.hide();
+        }
+    }
+    
+    if(key == 'R')
+    {
+        _floor._warper.reset();
+        _wall._warper.reset();
+    }
+    
+    if(key == 'W')
+    {
+        S()._warped = !S()._warped;
+        
+        if(S()._warped)
+        {
+            if(S()._debug)
+            {
+                _floor._warper.show();
+                _wall._warper.hide();
+            }
+            else
+            {
+                _floor._warper.hide();
+                _wall._warper.hide();
+            }
+        }
+    }
+    
+    
 }
 
 //--------------------------------------------------------------
