@@ -24,15 +24,6 @@ public:
     
     LeafSettings()
     {
-        _radius = 20.0;
-        
-        _decayFactor = 0.99;
-        _smoothFactor = 0.99;
-        
-        _maxSpeed		= ofRandom(2.0,5.0);
-        _maxSpeedSqrd	= _maxSpeed * _maxSpeed;
-        _minSpeed		= 0.0;
-        _minSpeedSqrd	= _minSpeed * _minSpeed;
     }
     
     void setup()
@@ -48,25 +39,12 @@ public:
         
         gui.addSlider("Radius",_radius,0.0,500.0,"/particles/radius");
         
-        gui.addSlider("SmoothFactor",_smoothFactor,0.0,1.0,"/particles/smoothfactor");
-        gui.addSlider("DecayFactor",_decayFactor,0.0,1.0,"/particles/decayfactor");
-        
-        gui.addSlider("MinSpeed",_minSpeed,0.0,5.0,"/particles/minspeed");
-        gui.addSlider("MaxSpeed",_maxSpeed,0.0,50.0,"/particles/maxspeed");
-        
         gui.addSlider("RepulseStrength",_repulseStrength,0.0,1.0,"/particles/repulsestrength");
         gui.addSlider("RepulseMaxDist",_repulseMaxDist,0.0,MIN(S()._xRes,S()._yRes)/2.0,"/particles/repulsemaxdist");
     }
     
     void update()
     {
-        if(_minSpeed != _ominSpeed || _maxSpeed != _omaxSpeed)
-        {
-            _minSpeedSqrd=_minSpeed*_minSpeed;
-            _maxSpeedSqrd=_maxSpeed*_maxSpeed;
-            _ominSpeed = _minSpeed;
-            _omaxSpeed = _maxSpeed;
-        }
     }
     
     void draw(){}
@@ -82,17 +60,7 @@ public:
     
     int _maxLeafes;
     
-    float _maxSpeed;
-    float _maxSpeedSqrd;
-    float _omaxSpeed;
-    float _minSpeed;
-    float _minSpeedSqrd;
-    float _ominSpeed;
-    
     float _radius;
-    
-    float _decayFactor;
-    float _smoothFactor;
     
     float _repulseStrength;
     float _repulseMaxDist;
@@ -108,83 +76,58 @@ class Leaf
 {
     
 public:
-    Leaf(float x, float y, float vx, float vy)
+    Leaf(float x, float y)
     {
-        setup(x,y,vx,vy);
+        setup(x,y);
     }
     
     ~Leaf()
     {
     }
     
-    void setup(float x, float y, float vx, float vy)
+    void setup(float x, float y)
     {
         _pos = ofVec2f(x,y);
         _posInit = _pos;
-        _vel = ofVec2f(vx,vy);
-        _velNormal = _vel.normalized();
-        _acc = ofVec2f(0.0,0.0);
+        _angle = ofRandom(0,360);
         
         _hasClip = false;
         
         _isRepulsed = false;
     }
     
-    void update()
+    void update(vector<Augmenta::Person*>& people)
     {
-        ofVec2f vel;
-        vel = _vel + _acc;
-        _vel += (vel-_vel)*LS()._smoothFactor;
-
-        if(!_isRepulsed)
-            attract(_posInit);
+        _isRepulsed = false;
         
-        float vLengthSqrd = _vel.lengthSquared();
+        ofPoint closestPerson;
+        float closestDist = S()._xRes;
         
-        if(vLengthSqrd!=0)
-            _velNormal = _vel.normalized();
-        
-        if( vLengthSqrd > LS()._maxSpeedSqrd )
+        for(auto p : people)
         {
-            _vel = _velNormal * LS()._maxSpeed;
+            ofVec2f leafToBlob = p->centroid*ofVec2f(S()._xRes,S()._yRes) - _pos;
+            float distance = leafToBlob.length();
             
-        }
-        else if( vLengthSqrd < LS()._minSpeedSqrd )
-        {
-            _vel = _velNormal * LS()._minSpeed;
+            if(distance < closestDist)
+            {
+                closestDist = distance;
+                closestPerson = leafToBlob;
+            }
         }
         
-        _pos += _vel;
-        
-        _right = _velNormal.getPerpendicular();
-        _right.normalize();
-        
-        _vel *= LS()._decayFactor;
-        _acc = ofVec2f(0.0);
-    }
-    
-    void attract(ofVec2f center)
-    {
-        ofVec2f dirToCenter   = _pos - center;
-        float distToCenter  = dirToCenter.length();
-        //TODO: Tester sans la condition
-        if( distToCenter > LS()._repulseMaxDist/10.0 )
+        if(closestDist < S()._xRes && closestDist < LS()._repulseMaxDist)
         {
-            _vel -= dirToCenter.normalized() * ( ofMap(distToCenter,0.0,LS()._repulseMaxDist,1.0,0.0) * LS()._repulseStrength*10.0 );
-        }
-    }
-    
-    bool repulse(ofVec2f center)
-    {
-        ofVec2f dirToCenter   = _pos - center;
-        float distToCenter  = dirToCenter.length();
-        //TODO: Tester sans la condition
-        if( distToCenter < LS()._repulseMaxDist )
-        {
-            _vel += dirToCenter.normalized() * ( ofMap(distToCenter,0.0,LS()._repulseMaxDist,1.0,0.0) * LS()._repulseStrength *10.0 );
+            _pos += -closestPerson.getNormalized() * LS()._repulseMaxDist*LS()._repulseStrength;
             
-            _isRepulsed = true;
+            if(closestDist < LS()._repulseMaxDist * 2.1)
+                _isRepulsed = true;
         }
+        //else
+        //if(!_isRepulsed)
+        //{
+            //ofVec2f currentToOriginal = _pos - _posInit;
+            //_pos += -(currentToOriginal * LS()._repulseStrength);
+        //}
     }
     
     void draw()
@@ -193,14 +136,9 @@ public:
         
         if(_hasClip)
         {
-            ofVec2f Va(1,0);
-            ofVec2f Vb(_velNormal);
-            
-            float angle = Va.angle(Vb);
-            
             ofPushMatrix();
             ofTranslate(_pos);
-            ofRotate(angle, 0, 0, 1);
+            ofRotate(_angle, 0, 0, 1);
             
             ofSetColor(255);
             _clip.drawFrame(-LS()._radius/2.0,-LS()._radius/2.0,LS()._radius,LS(). _radius);
@@ -218,20 +156,14 @@ public:
         ofSetColor(ofColor::white);
         
         ofSetColor(0, 0, 255, 255);
-        ofLine(_pos.x, _pos.y, _pos.x + _velNormal.x*50.0  , _pos.y + _velNormal.y*50.0);
-        ofSetColor(0, 255, 0, 255);
-        ofLine(_pos.x, _pos.y, _pos.x + _right.x*50.0, _pos.y + _right.y*50.0);
+        ofDrawCircle(_pos.x,_pos.y,LS()._radius);
     }
     
 public:
     
     ofVec2f _posInit;
     ofVec2f _pos;
-    ofVec2f _right;
-    
-    ofVec2f _vel;
-    ofVec2f _velNormal;
-    ofVec2f _acc;
+    float _angle;
     
     ofxTextureMovieClip _clip;
     bool _hasClip;
@@ -271,16 +203,14 @@ public:
         {
             ofVec2f randPosVec = ofVec2f(ofRandom(0.0,S()._xRes),ofRandom(0.0,S()._yRes));
             ofVec2f pos = randPosVec;
-            ofVec2f randVelVec = ofVec2f(ofRandom(LS()._minSpeed,LS()._maxSpeed),ofRandom(LS()._minSpeed,LS()._maxSpeed));
-            ofVec2f vel = ofVec2f(0.0,0.0);
             
-            addLeaf(pos,vel);
+            addLeaf(pos);
         }
     }
     
-    Leaf* addLeaf(ofVec2f pos, ofVec2f vel)
+    Leaf* addLeaf(ofVec2f pos)
     {
-        _leaves.push_back(Leaf(pos.x,pos.y, vel.x,vel.y));
+        _leaves.push_back(Leaf(pos.x,pos.y));
         
         if(_species[_currentSpecies]._hasImgSeq)
         {
@@ -304,38 +234,13 @@ public:
     
     virtual void update(vector<Augmenta::Person*>& people)
     {
-        LS().update();
-        
         while(_leaves.size()<LS()._maxLeafes)
             addRandomLeaves(1);
         while(_leaves.size()>LS()._maxLeafes)
             _leaves.pop_front();
         
-        
-        for(list<Leaf>::iterator it = _leaves.begin(); it != _leaves.end(); it++)
-            it->_isRepulsed = false;
-        
-        for(auto p : people)
-            repulseParticles(ofVec2f(p->centroid.x*S()._xRes,p->centroid.y*S()._yRes));
-        
-        
-        for(list<Leaf>::iterator it = _leaves.begin(); it != _leaves.end(); it++)
-            it->update();
-    }
-    
-    void attractParticles(ofVec2f attractor)
-    {
-        for( list<Leaf>::iterator p = _leaves.begin(); p != _leaves.end(); ++p )
-        {
-            p->attract(attractor);
-        }
-    }
-    void repulseParticles(ofVec2f repulsor)
-    {
-        for( list<Leaf>::iterator p = _leaves.begin(); p != _leaves.end(); ++p )
-        {
-            p->repulse(repulsor);
-        }
+        for(auto & l : _leaves)
+            l.update(people);
     }
     
     virtual void draw()

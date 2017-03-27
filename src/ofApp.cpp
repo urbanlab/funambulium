@@ -63,7 +63,7 @@ void ofApp::update()
         ofSetColor(ofColor::red);
         for (auto p : _people)
         {
-            ofDrawCircle(p->centroid.x*1280.0, p->centroid.y*800.0, 15);
+            ofDrawCircle(p->centroid.x*S()._xRes, p->centroid.y*S()._yRes, 15);
         }
     }
     
