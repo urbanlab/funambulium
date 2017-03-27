@@ -10,14 +10,16 @@
 
 #include "ofMain.h"
 
+#include "ofxAugmenta.h"
+#define AU_OSC_PORT 12000
+
 #include "settings.h"
 #include "window.h"
 
-#include "ofxAugmenta.h"
+#include "kid.h"
+#include "scenarii.h"
 
 #define DEBUG
-
-#define AU_OSC_PORT 12000
 
 class ofApp : public ofBaseApp
 {
@@ -43,4 +45,7 @@ class ofApp : public ofBaseApp
     
         Window _floor;
         Window _wall;
+    
+        Kid _kid;
+        Scenarii _scenarii;
 };
