@@ -1,3 +1,4 @@
+ofxAnimatable
 ofxAugmenta
 ofxEasing
 ofxFX
@@ -6,5 +7,6 @@ ofxMovieClip
 ofxOpenCv
 ofxOsc
 ofxQuadWarp
+ofxScreenCurtain
 ofxSimpleGuiToo
 ofxXmlSettings
