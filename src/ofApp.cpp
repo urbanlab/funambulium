@@ -30,9 +30,14 @@ void ofApp::setup()
     S().setup();
 
     _scenarii.setup();
+
+    _fboEffect.allocate(S()._xRes,S()._yRes,GL_RGBA);
+    _effect.setup();
+    _effect.setTexture(_fboEffect.getTexture());
     
     gui.setup();
     S().setupGui();
+    _effect.setupGui();
     _scenarii.setupGui();
     gui.loadFromXML();
     gui.setDefaultKeys(true);
@@ -60,8 +65,12 @@ void ofApp::update()
     
     ofEnableAlphaBlending();
  
-    _floor.begin();
+    if(_scenarii._scenarii[_scenarii._currentScenario]._hasEffect)
+        _fboEffect.begin();
+    else
+        _floor.begin();
     
+    ofClear(0);
     ofSetColor(255);
     
     _scenarii.drawFloor();
@@ -75,7 +84,21 @@ void ofApp::update()
         }
     }
     
-    _floor.end();
+    if(_scenarii._scenarii[_scenarii._currentScenario]._hasEffect)
+        _fboEffect.end();
+    else
+        _floor.end();
+    
+    if(_scenarii._scenarii[_scenarii._currentScenario]._hasEffect)
+    {
+        _effect.setTexture(_fboEffect.getTexture());
+        _effect.update(_people);
+        
+        _floor.begin();
+        _effect.draw();
+        //_fboEffect.draw(0,0,S()._xRes,S()._yRes);
+        _floor.end();
+    }
     
     _wall.begin();
     
