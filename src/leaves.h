@@ -234,6 +234,7 @@ public:
     
     virtual void setupGui()
     {
+        gui.addTitle("Leaf Particles");
         LS().setupGui();
     }
     

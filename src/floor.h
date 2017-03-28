@@ -9,6 +9,9 @@
 #ifndef floor_h
 #define floor_h
 
+#include "ofxBounce.h"
+#include "ofxRipples.h"
+
 class Base
 {
 
@@ -184,23 +187,34 @@ public:
         
     }
     
-    void setup(string path)
+    void setup(string path, bool video = false)
     {
-        cout<<"\tFLOOR: "<<path+"/EARTH.mp4"<<endl;
-        _bg.load(path+"/EARTH.mp4");
+        _video = video;
         
+        if(_video)
+        {
+            cout<<"\tFLOOR: "<<path+"/EARTH.mp4"<<endl;
+            _bgV.load(path+"/EARTH.mp4");
+        }
+        else
+        {
+            cout<<"\tFLOOR: "<<path+"/EARTH.png"<<endl;
+            _bgI.load(path+"/EARTH.png");
+        }
         _pos = 0.0;
     }
     
     void start()
     {
-        _bg.play();
+        if(_video)
+            _bgV.play();
         _pos = 0.0;
     }
     
     void stop()
     {
-        _bg.stop();
+        if(_video)
+            _bgV.stop();
         _pos = 0.0;
     }
     
@@ -211,24 +225,35 @@ public:
         if(pos > _pos)
             _pos = pos*(1-S()._smoothPos) + _pos * S()._smoothPos;
         
-        if(_pos < _bg.getPosition())
-            _bg.setPaused(true);
-        else
-            _bg.setPaused(false);
-        
-        //_bg.setPosition(_pos);
-        _bg.update();
+        if(_video)
+        {
+            if(_pos < _bgV.getPosition())
+                _bgV.setPaused(true);
+            else
+                _bgV.setPaused(false);
+            
+            
+            //_bgV.setPosition(_pos);
+            _bgV.update();
+        }
     }
     
     void draw()
     {
         ofPushMatrix();
         
-        ofTranslate(RES_X/2.0,RES_Y/2.0);
-        ofRotateZ(90);
-        ofTranslate(-RES_Y/2.0,-RES_X/2.0);
+        if(_video)
+        {
+            ofTranslate(RES_X/2.0,RES_Y/2.0);
+            ofRotateZ(90);
+            ofTranslate(-RES_Y/2.0,-RES_X/2.0);
         
-        _bg.draw(0,0,RES_Y,RES_X);
+            _bgV.draw(0,0,RES_Y,RES_X);
+        }
+        else
+        {
+            _bgI.draw(0,0,RES_Y,RES_X);
+        }
         
         ofPopMatrix();
     }
@@ -241,7 +266,10 @@ public:
     
 public:
     
-    ofVideoPlayer _bg;
+    bool _video;
+    
+    ofVideoPlayer _bgV;
+    ofImage _bgI;
     
     float _pos;
 };

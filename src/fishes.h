@@ -507,6 +507,7 @@ public:
     
     virtual void setupGui()
     {
+        gui.addTitle("Fish Particles");
         FS().setupGui();
     }
     
