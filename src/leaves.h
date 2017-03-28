@@ -189,10 +189,15 @@ public:
         
         _currentSpecies = 0;
         
-        reload();
+        _leaves.clear();
     }
     
-    virtual void reload()
+    virtual void start()
+    {
+        //_leaves.clear();
+    }
+    
+    virtual void stop()
     {
         _leaves.clear();
     }

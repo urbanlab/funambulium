@@ -21,28 +21,33 @@ class Scenario
 
 public:
     
-    Scenario(string path)
+    Scenario(string path, bool interactiveHorizon = false)
     {
-        setup(path);
+        setup(path, interactiveHorizon);
     }
     
-    void setup(string path)
+    void setup(string path, bool interactiveHorizon = false)
     {
         cout<<"SCENARIO: "<<path<<endl;
         
         _path = path;
         
-        _horizon.setup(_path);
+        _horizon.setup(_path, interactiveHorizon);
         _earth.setup(_path);
         
         _pos = ofPoint(-0.5,0.5);
+        
+        _particles = NULL;
     }
     
     void setupGui()
     {
         gui.addPage(_path);
-        gui.addTitle("Particles");
-        _particles->setupGui();
+        if(_particles != NULL)
+        {
+            gui.addTitle("Particles");
+            _particles->setupGui();
+        }
     }
     
     void start()
@@ -51,12 +56,18 @@ public:
         
         _horizon.start();
         _earth.start();
+        if(_particles != NULL)
+            _particles->start();
     }
     
     void stop()
     {
+        cout<<"\tSTOPING SCENARIO: "<<_path<<endl;
+        
         _horizon.stop();
         _earth.stop();
+        if(_particles != NULL)
+            _particles->stop();
     }
     
     void update(vector<Augmenta::Person*>& people)
@@ -115,10 +126,15 @@ public:
     
     void setup()
     {
-        _scenarii.push_back(Scenario("0_UNLOCK"));
-        //_scenarii.back()._particles = new Fishes;
+        //_scenarii.push_back(Scenario("0_UNLOCK"));
+        
+        _scenarii.push_back(Scenario("1_FORET"));
         _scenarii.back()._particles = new Leaves;
-        _scenarii.back()._particles->setup("0_UNLOCK");
+        _scenarii.back()._particles->setup("1_FORET");
+        
+        _scenarii.push_back(Scenario("2_LAC"));
+        _scenarii.back()._particles = new Fishes;
+        _scenarii.back()._particles->setup("2_LAC");
         
         _currentScenario = 0;
         _started = false;
@@ -144,7 +160,7 @@ public:
     
     void stop()
     {
-        _scenarii[_currentScenario].stop();
+        //_scenarii[_currentScenario].stop();
         
         _currentScenario = 0;
         _started = false;
@@ -152,14 +168,17 @@ public:
     
     void next()
     {
-        _scenarii[_currentScenario].stop();
-        
-        _currentScenario++;
-        
-        if(_currentScenario >= _scenarii.size())
-            stop();
-        else
-            _scenarii[_currentScenario].start();
+        if(_started)
+        {
+            _scenarii[_currentScenario].stop();
+            
+            _currentScenario++;
+            
+            if(_currentScenario >= _scenarii.size())
+                stop();
+            else
+                _scenarii[_currentScenario].start();
+        }
     }
     
     void restart()

@@ -11,6 +11,14 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    #ifdef DEBUG
+    ofSetFullscreen(false);
+    ofSetWindowShape(1280, 400);
+    #else
+    ofSetFullscreen(true);
+    ofSetWindowShape(1280*2, 800);
+    #endif
+    
     _auReceiver.connect(AU_OSC_PORT);
     //ofxAddAugmentaListeners(this);
     
@@ -162,6 +170,8 @@ void ofApp::keyReleased(int key)
         _scenarii.start();
     if(key == 'r')
         _scenarii.restart();
+    if(key == 'n')
+        _scenarii.next();
     
     if(key == 'f')
         ofToggleFullscreen();

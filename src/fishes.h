@@ -439,12 +439,17 @@ public:
         
         _currentSpecies = 0;
         
-        reload();
+        _fishes.clear();
     }
     
-    virtual void reload()
+    virtual void start()
     {
-        _fishes.clear();
+        //_fishes.clear();
+    }
+    
+    virtual void stop()
+    {
+        //_fishes.clear();
     }
     
     void addRandomFishes(int amt)
