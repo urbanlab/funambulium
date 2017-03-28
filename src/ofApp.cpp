@@ -234,8 +234,8 @@ void ofApp::keyReleased(int key)
     
     if(key == 'R')
     {
-        _floor._warper.reset();
-        _wall._warper.reset();
+        //_floor._warper.reset();
+        //_wall._warper.reset();
     }
     
     if(key == 'W')
