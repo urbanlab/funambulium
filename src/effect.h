@@ -9,6 +9,9 @@
 #ifndef effect_h
 #define effect_h
 
+#include "ofxBounce.h"
+#include "ofxRipples.h"
+
 class Effect
 {
 public:

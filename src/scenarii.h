@@ -37,6 +37,7 @@ public:
         _earth.setup(_path, interactiveHorizon);
         
         _pos = ofPoint(-0.5,0.5);
+        _someoneIn = false;
         
         _particles = NULL;
         //_effect = NULL;
@@ -87,10 +88,15 @@ public:
         if(people.size() > 0)
         {
             _pos = people[0]->centroid;
+            _someoneIn = true;
+        }
+        else
+        {
+            _someoneIn = false;
         }
         
         _horizon.update(_pos.x);
-        _earth.update(_pos.x);
+        _earth.update(_pos.x,_someoneIn);
         
         if(_particles != NULL)
             _particles->update(people);
@@ -125,6 +131,7 @@ public:
     string _path;
     
     ofPoint _pos;
+    bool _someoneIn;
     
     Particles* _particles;
     //Effect* _effect;

@@ -9,8 +9,7 @@
 #ifndef floor_h
 #define floor_h
 
-#include "ofxBounce.h"
-#include "ofxRipples.h"
+#include "ofxMovieClip.h"
 
 class Base
 {
@@ -201,6 +200,17 @@ public:
             cout<<"\tFLOOR: "<<path+"/EARTH.png"<<endl;
             _bgI.load(path+"/EARTH.png");
         }
+        
+        _pathOn.loadAndCreateSequence(path+"/PATHON","PATHON");
+        _pathOff.loadAndCreateSequence(path+"/PATHOFF","PATHOFF");
+        _hasPath = (_pathOn.assetCollectionSize>0 && _pathOff.assetCollectionSize>0);
+        
+        if(_hasPath)
+        {
+            _clipPathOn.init(&_pathOn,0.3);
+            _clipPathOff.init(&_pathOff,0.3);
+        }
+        
         _pos = 0.0;
     }
     
@@ -218,7 +228,7 @@ public:
         _pos = 0.0;
     }
     
-    void update(float pos)
+    void update(float pos, bool someoneIn = false)
     {
         pos = ofClamp(pos,0.0,1.0);
         
@@ -232,10 +242,16 @@ public:
             else
                 _bgV.setPaused(false);
             
-            
             //_bgV.setPosition(_pos);
             _bgV.update();
         }
+        
+        //_someoneIn = someoneIn;
+        
+        if(someoneIn && pos > S()._posIn + S()._sizeInOut && pos < S()._posOut - S()._sizeInOut)
+            _someoneIn = true;
+        else
+            _someoneIn = false;
     }
     
     void draw()
@@ -256,6 +272,19 @@ public:
         }
         
         ofPopMatrix();
+        
+        if(_hasPath)
+        {
+            float x = S()._posIn * S()._xRes;// + 0.5 * S()._sizeInOut * S()._yRes;
+            float y = 0.0;
+            float w = S()._posOut * S()._xRes - x;// - 0.5 * S()._sizeInOut * S()._yRes;
+            float h = S()._yRes;
+            
+            _clipPathOff.drawFrame(x,y,w,h);
+            
+            if(_someoneIn)
+                _clipPathOn.drawFrame(x,y,w,h);
+        }
     }
     
     void drawDebug()
@@ -271,7 +300,16 @@ public:
     ofVideoPlayer _bgV;
     ofImage _bgI;
     
+    ofxTextureImageSequenceLoader _pathOff;
+    ofxTextureImageSequenceLoader _pathOn;
+    
+    ofxTextureMovieClip _clipPathOff;
+    ofxTextureMovieClip _clipPathOn;
+    
+    bool _hasPath;
+    
     float _pos;
+    bool _someoneIn;
 };
 
 #endif /* floor_h */

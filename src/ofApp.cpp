@@ -61,6 +61,8 @@ void ofApp::update()
     // Get the person data
     _people = _auReceiver.getPeople();
     
+    S().update(_people);
+    
     _scenarii.update(_people);
     
     ofEnableAlphaBlending();
@@ -74,6 +76,9 @@ void ofApp::update()
     ofSetColor(255);
     
     _scenarii.drawFloor();
+    
+    if(_scenarii._started)
+        S().drawInOut();
     
     if(S()._debug)
     {

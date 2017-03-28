@@ -16,6 +16,8 @@
 
 #define LEAF1 "feuille1"
 #define LEAF2 "feuille2"
+#define LEAF3 "feuille3"
+#define LEAF4 "feuille4"
 
 class LeafSettings
 {
@@ -186,6 +188,8 @@ public:
         
         _species.push_back(Species(path+"/"+LEAF1,"Leaf1"));
         _species.push_back(Species(path+"/"+LEAF2,"Leaf2"));
+        _species.push_back(Species(path+"/"+LEAF3,"Leaf3"));
+        _species.push_back(Species(path+"/"+LEAF4,"Leaf4"));
         
         _currentSpecies = 0;
         
