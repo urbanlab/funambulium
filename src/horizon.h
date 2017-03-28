@@ -19,10 +19,17 @@ public:
         
     }
     
-    void setup(string path)
+    void setup(string path,bool interactive = false)
     {
+        _interactive = interactive;
+        
         cout<<"\tHORIZON: "<<path+"/HORIZON.mp4"<<endl;
         _bg.load(path+"/HORIZON.mp4");
+        
+        if(_interactive)
+            _bg.setLoopState(OF_LOOP_NONE);
+        else
+            _bg.setLoopState(OF_LOOP_NORMAL);
         
         _pos = 0.0;
     }
@@ -46,10 +53,13 @@ public:
         if(pos > _pos)
             _pos = pos*(1-S()._smoothPos) + _pos * S()._smoothPos;
         
-        if(_pos < _bg.getPosition())
-            _bg.setPaused(true);
-        else
-            _bg.setPaused(false);
+        if(_interactive)
+        {
+            if(_pos < _bg.getPosition())
+                _bg.setPaused(true);
+            else
+                _bg.setPaused(false);
+        }
         
         //_bg.setPosition(_pos);
         _bg.update();
@@ -75,6 +85,8 @@ public:
     }
     
 public:
+    
+    bool _interactive;
     
     ofVideoPlayer _bg;
     

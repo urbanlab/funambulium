@@ -56,6 +56,16 @@ public:
         
     }
     
+    virtual void start()
+    {
+        
+    }
+    
+    virtual void stop()
+    {
+        
+    }
+    
     virtual void reset()
     {
         
