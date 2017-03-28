@@ -78,9 +78,9 @@ public:
         gui.addSlider("Damping",_damping,0.0,1.0);
     }
     
-    void setTexture(ofImage& tex)
+    void setTexture(ofTexture& tex)
     {
-        _bounce.setTexture(tex.getTexture(), 1);
+        _bounce.setTexture(tex, 1);
     }
     
     virtual void stop()

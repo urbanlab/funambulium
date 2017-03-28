@@ -252,7 +252,7 @@ public:
         }
         else
         {
-            _bgI.draw(0,0,RES_Y,RES_X);
+            _bgI.draw(0,0,RES_X,RES_Y);
         }
         
         ofPopMatrix();

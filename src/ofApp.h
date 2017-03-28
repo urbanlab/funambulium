@@ -19,6 +19,8 @@
 #include "kid.h"
 #include "scenarii.h"
 
+#include "effect.h"
+
 #define DEBUG
 
 class ofApp : public ofBaseApp
@@ -46,6 +48,9 @@ class ofApp : public ofBaseApp
     
         WWindow _floor;
         WWindow _wall;
+    
+        RippleEffect _effect;
+        ofFbo _fboEffect;
     
         Kid _kid;
         Scenarii _scenarii;

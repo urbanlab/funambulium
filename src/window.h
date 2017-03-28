@@ -81,6 +81,15 @@ public:
     
     void draw()
     {
+        beginWarp();
+        ofSetColor(255);
+        //_fbo.draw(_x,_y,_w,_h);
+        _fbo.draw(0,0);
+        endWarp();        
+    }
+    
+    void beginWarp()
+    {
         //======================== get our quad warp matrix.
         
         ofMatrix4x4 mat = _warper.getMatrix();
@@ -89,9 +98,10 @@ public:
         
         ofPushMatrix();
         ofMultMatrix(mat);
-        ofSetColor(255);
-        //_fbo.draw(_x,_y,_w,_h);
-        _fbo.draw(0,0);
+    }
+    
+    void endWarp()
+    {
         ofPopMatrix();
     }
     

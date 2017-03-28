@@ -13,7 +13,7 @@
 #include "horizon.h"
 
 #include "particles.h"
-#include "effect.h"
+//#include "effect.h"
 #include "leaves.h"
 #include "fishes.h"
 
@@ -39,17 +39,19 @@ public:
         _pos = ofPoint(-0.5,0.5);
         
         _particles = NULL;
-        _effect = NULL;
+        //_effect = NULL;
+        
+        _hasEffect = false;
     }
     
     void setupGui()
     {
         gui.addPage(_path);
-        if(_effect != NULL)
-        {
-            gui.addTitle("Effect");
-            _effect->setupGui();
-        }
+        //if(_effect != NULL)
+        //{
+        //    gui.addTitle("Effect");
+        //    _effect->setupGui();
+        //}
         if(_particles != NULL)
         {            
             _particles->setupGui();
@@ -64,8 +66,8 @@ public:
         _earth.start();
         if(_particles != NULL)
             _particles->start();
-        if(_effect != NULL)
-            _effect->stop();
+        //if(_effect != NULL)
+        //    _effect->stop();
     }
     
     void stop()
@@ -76,8 +78,8 @@ public:
         _earth.stop();
         if(_particles != NULL)
             _particles->stop();
-        if(_effect != NULL)
-            _effect->stop();
+        //if(_effect != NULL)
+        //    _effect->stop();
     }
     
     void update(vector<Augmenta::Person*>& people)
@@ -93,19 +95,19 @@ public:
         if(_particles != NULL)
             _particles->update(people);
         
-        if(_effect != NULL)
-            _effect->update(people);
+        //if(_effect != NULL)
+        //    _effect->update(people);
     }
     
     void drawFloor()
     {
-        //_earth.draw();
+        _earth.draw();
         
         if(_particles != NULL)
             _particles->draw();
         
-        if(_effect != NULL)
-            _effect->draw();
+        //if(_effect != NULL)
+        //    _effect->draw();
     }
     
     void drawWall()
@@ -125,13 +127,12 @@ public:
     ofPoint _pos;
     
     Particles* _particles;
-    Effect* _effect;
+    //Effect* _effect;
     
     Horizon _horizon;
     Floor _earth;
     
     bool _hasEffect;
-    
 };
 
 class Scenarii
@@ -152,10 +153,10 @@ public:
         _scenarii.back()._particles->setup("1_FORET");
     
         _scenarii.push_back(Scenario("2_LAC"));
-        _scenarii.back()._effect = new RippleEffect;
-        _scenarii.back()._effect->setup();
-        cout<<_scenarii.back()._earth._bgI.getWidth()<<" "<<_scenarii.back()._earth._bgI.getHeight()<<endl;
-        _scenarii.back()._effect->setTexture(_scenarii.back()._earth._bgI);
+        //_scenarii.back()._effect = new RippleEffect;
+        //_scenarii.back()._effect->setup();
+        //_scenarii.back()._effect->setTexture(_scenarii.back()._earth._bgI);
+        _scenarii.back()._hasEffect = true;
         _scenarii.back()._particles = new Fishes;
         _scenarii.back()._particles->setup("2_LAC");
         
