@@ -107,34 +107,39 @@ public:
     {
         _isRepulsed = false;
         
-        float vel = people[0]->velocity.length();
-        
-        ofVec2f featherToCenter = ofPoint(0.5*S()._xRes,0.5*S()._yRes) - _pos;
-        float distance = featherToCenter.length();
-        
-        if(vel < PS()._minVelocity / 10.0 && people[0]->centroid.x > PS()._minPosEffect)
+        if(people.size() > 0)
         {
-            if(_pos.x <= 0.0 || _pos.x >= S()._xRes || _pos.y <= 0.0 || _pos.y >= S()._yRes)
+            if(people[0]->centroid.x > PS()._minPosEffect)
             {
+                float vel = people[0]->velocity.lengthSquared();
                 
+                ofVec2f featherToCenter = ofPoint(0.5*S()._xRes,0.5*S()._yRes) - _pos;
+                float distance = featherToCenter.lengthSquared();
+                
+                if(vel < (PS()._minVelocity / 10.0) * (PS()._minVelocity / 10.0))
+                {
+                    if(_pos.x <= 0.0 || _pos.x >= S()._xRes || _pos.y <= 0.0 || _pos.y >= S()._yRes)
+                    {
+                        
+                    }
+                    else
+                    {
+                        _pos += -featherToCenter.getNormalized() * sqrt(distance) * PS()._repulseStrength;
+                    }
+                    
+                    if(_pos.x < 0.0)
+                        _pos.x = 0.0;
+                    if(_pos.x > S()._xRes)
+                        _pos.x = S()._xRes;
+                    if(_pos.y < 0.0)
+                        _pos.y = 0.0;
+                    if(_pos.y > S()._yRes)
+                        _pos.y = S()._yRes;
+                    
+                    _isRepulsed = true;
+                }
             }
-            else
-            {
-                _pos += -featherToCenter.getNormalized() * distance * PS()._repulseStrength;
-            }
-            
-            if(_pos.x < 0.0)
-                _pos.x = 0.0;
-            if(_pos.x > S()._xRes)
-                _pos.x = S()._xRes;
-            if(_pos.y < 0.0)
-                _pos.y = 0.0;
-            if(_pos.y > S()._yRes)
-                _pos.y = S()._yRes;
-            
-            _isRepulsed = true;
         }
-        
         if(!_isRepulsed)
         {
             ofVec2f currentToOriginal = _pos - _posInit;

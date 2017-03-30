@@ -266,17 +266,17 @@ public:
         _right = _velNormal.getPerpendicular();
         _right.normalize();
         
-        _tail.push_back(_pos);
-        while(_tail.size()>FS()._tailLength)
-            _tail.pop_front();
-        
-        _tailVel.push_back(_velNormal);
-        while(_tailVel.size()>FS()._tailLength)
-            _tailVel.pop_front();
-        
-        _tailRight.push_back(_right);
-        while(_tailRight.size()>FS()._tailLength)
-            _tailRight.pop_front();
+//        _tail.push_back(_pos);
+//        while(_tail.size()>FS()._tailLength)
+//            _tail.pop_front();
+//        
+//        _tailVel.push_back(_velNormal);
+//        while(_tailVel.size()>FS()._tailLength)
+//            _tailVel.pop_front();
+//        
+//        _tailRight.push_back(_right);
+//        while(_tailRight.size()>FS()._tailLength)
+//            _tailRight.pop_front();
         
         _vel *= FS()._decayFactor;
         _acc = ofVec2f(0.0);

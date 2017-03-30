@@ -103,12 +103,12 @@ public:
         _isRepulsed = false;
         
         ofPoint closestPerson;
-        float closestDist = S()._xRes;
+        float closestDist = S()._xRes*S()._xRes;
         
         for(auto p : people)
         {
             ofVec2f leafToBlob = p->centroid*ofVec2f(S()._xRes,S()._yRes) - _pos;
-            float distance = leafToBlob.length();
+            float distance = leafToBlob.lengthSquared();
             
             if(distance < closestDist)
             {
@@ -117,9 +117,9 @@ public:
             }
         }
         
-        if(closestDist < S()._xRes && closestDist < LS()._repulseMaxDist)
+        if(closestDist < S()._xRes*S()._xRes && closestDist < LS()._repulseMaxDist*LS()._repulseMaxDist)
         {
-            _pos += -closestPerson.getNormalized() * closestDist * LS()._repulseStrength;
+            _pos += -closestPerson.getNormalized() * sqrt(closestDist) * LS()._repulseStrength;
             
             //if(closestDist < LS()._repulseMaxDist * 2.1)
             //    _isRepulsed = true;
