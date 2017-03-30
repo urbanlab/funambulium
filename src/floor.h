@@ -248,7 +248,7 @@ public:
         
         //_someoneIn = someoneIn;
         
-        if(someoneIn && pos > S()._posIn + S()._sizeInOut && pos < S()._posOut - S()._sizeInOut)
+        if(someoneIn && pos > S()._posIn && pos < S()._posOut)
             _someoneIn = true;
         else
             _someoneIn = false;
