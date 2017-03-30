@@ -696,6 +696,7 @@ public:
     
     void applyForceToPredators()
     {
+        /*
         float twoPI = M_PI * 2.0f;
         _predatorCentroid = ofVec2f(0.0);
         _nbPredators = _predators.size();
@@ -753,6 +754,7 @@ public:
             
         }
         _predatorCentroid /= (float)_nbPredators;
+         */
     }
     
     void attractParticles(ofVec2f attractor)
