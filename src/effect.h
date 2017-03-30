@@ -109,7 +109,6 @@ public:
         ofSetColor(255);
         for(auto & p : people)
         {
-            cout<<p->velocity.length()<<endl;
             if(p->velocity.length() > _minVelocity/10.0)
             {
                 ofDrawEllipse(p->centroid.x*S()._xRes,
