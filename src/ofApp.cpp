@@ -46,6 +46,28 @@ void ofApp::setup()
     ofHideCursor();
     //CGDisplayHideCursor(NULL);
     #endif
+    
+    //OSC REMOTE
+    // Declare a File Stream.
+    ifstream fileIn;
+    // Open your text File:
+    fileIn.open(ofToDataPath("ip.txt").c_str());
+    // Check if File is open.
+    string ip = IP_OUT;
+    if(fileIn.is_open())
+    {
+        //while(fileIn != NULL)
+        while(fileIn.good())
+        {
+            string temp;
+            getline(fileIn, temp);
+            
+            if(!temp.empty())
+                ip = temp;
+        }
+    }
+    _receiver.setup(PORT_IN);
+    _sender.setup(ip, PORT_OUT);
 }
 
 //--------------------------------------------------------------
@@ -56,8 +78,38 @@ void ofApp::exit()
 }
 
 //--------------------------------------------------------------
+void ofApp::oscRemote()
+{
+    // check for waiting messages
+    while(_receiver.hasWaitingMessages())
+    {
+        // get the next message
+        ofxOscMessage m;
+        _receiver.getNextMessage(m);
+        
+        //cout<<"Message "<<m.getAddress()<<" "<<m.getArgAsString(0)<<endl;
+        
+        if(m.getAddress() == "/Remote/StartStop")
+        {
+            if(m.getArgAsInt32(0))
+                _scenarii.callStart();
+            else
+                _scenarii.callStop();
+        }
+        
+        if(m.getAddress() == "/Remote/Next")
+        {
+            if(m.getArgAsInt32(0))
+                _scenarii.callNext();
+        }
+    }
+}
+
+//--------------------------------------------------------------
 void ofApp::update()
 {
+    oscRemote();
+    
     // Get the person data
     _people = _auReceiver.getPeople();
     
@@ -195,11 +247,25 @@ void ofApp::keyPressed(int key)
 void ofApp::keyReleased(int key)
 {
     if(key == 's')
-        _scenarii.start();
+        _scenarii.callStart();
     if(key == 'r')
-        _scenarii.restart();
+        _scenarii.callStop();
     if(key == 'n')
-        _scenarii.next();
+        _scenarii.callNext();
+    
+    ofxOscMessage m;
+    if(_scenarii._started)
+    {
+        m.setAddress("/Remote/StartStop");
+        m.addBoolArg(true);
+    }
+    else
+    {
+        m.setAddress("/Remote/StartStop");
+        m.addBoolArg(false);
+    }
+    
+    _sender.sendMessage(m);
     
     if(key == 'f')
         ofToggleFullscreen();

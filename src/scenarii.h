@@ -9,6 +9,8 @@
 #ifndef scenarii_h
 #define scenarii_h
 
+#include "ofxScreenCurtain.h"
+
 #include "floor.h"
 #include "horizon.h"
 
@@ -153,6 +155,8 @@ public:
     
     void setup()
     {
+        _scenarii.push_back(Scenario("_IDLE"));
+        
         _scenarii.push_back(Scenario("0_UNLOCK",true));
         
         _scenarii.push_back(Scenario("1_FORET"));
@@ -168,7 +172,10 @@ public:
         _scenarii.back()._particles->setup("2_LAC");
         
         _currentScenario = 0;
+        _scenarii[_currentScenario].start();
         _started = false;
+        
+        _curtain.setup(ofColor::black,ofRectangle(0,0,S()._xRes,S()._yRes));
     }
     
     void setupGui()
@@ -179,22 +186,53 @@ public:
         }
     }
     
+    void callStart()
+    {
+        _curtain.dropCurtain(S()._fadeDuration);
+        _callStart = true;
+    }
+    
     void start()
     {
         cout<<"STARTING EXPERIENCE"<<endl;
         
-        _currentScenario = 0;
+        _scenarii[_currentScenario].stop();
+        
+        _currentScenario = 1;
         _started = true;
         
         _scenarii[_currentScenario].start();
+        
+        _callStart = false;
+        
+        _curtain.raiseCurtain(S()._fadeDuration,true);
+    }
+    
+    void callStop()
+    {
+        _scenarii[_currentScenario].stop();
+        
+        _currentScenario = 0;
+        _scenarii[_currentScenario].start();
+        
+        _started = false;
     }
     
     void stop()
     {
-        //_scenarii[_currentScenario].stop();
-        
         _currentScenario = 0;
+        _scenarii[_currentScenario].start();
+        
         _started = false;
+    }
+    
+    void callNext()
+    {
+        if(_started)
+        {
+            _curtain.dropCurtain(S()._fadeDuration);
+            _callNext = true;
+        }
     }
     
     void next()
@@ -209,7 +247,11 @@ public:
                 stop();
             else
                 _scenarii[_currentScenario].start();
+            
+            _curtain.raiseCurtain(S()._fadeDuration,true);
         }
+        
+        _callNext = false;
     }
     
     void restart()
@@ -220,25 +262,43 @@ public:
     
     void update(vector<Augmenta::Person*>& people)
     {
+        if(_callStart && _curtain.curtainIsDown())
+        {
+            start();
+        }
+        
         if(_started)
         {
+            if(_callNext && _curtain.curtainIsDown())
+            {
+                next();
+            }
+            
             _scenarii[_currentScenario].update(people);
         }
+        else
+        {
+            _scenarii[0].update(people);
+        }
+        
+        _curtain.update(0.016666f);
     }
     
     void drawFloor()
     {
-        if(_started)
+        //if(_started)
         {
             _scenarii[_currentScenario].drawFloor();
+            _curtain.draw();
         }
     }
     
     void drawWall()
     {
-        if(_started)
+        //if(_started)
         {
             _scenarii[_currentScenario].drawWall();
+            _curtain.draw();
         }
     }
     
@@ -254,7 +314,11 @@ public:
     int _currentScenario;
     
     bool _started;
+
+    bool _callStart;
+    bool _callNext;
     
+    ofxScreenCurtain _curtain;
 };
 
 #endif /* scenarii_h */

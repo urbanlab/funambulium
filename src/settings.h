@@ -51,6 +51,8 @@ public:
         gui.addSlider("PosIn",_posIn,0.0,1.0);
         gui.addSlider("PosOut",_posOut,0.0,1.0);
         gui.addSlider("SizeInOut",_sizeInOut,0.0,1.0);
+        gui.addSlider("RadiusInOut",_radiusInOut,0.0,1.0);
+        gui.addSlider("FadeDuration",_fadeDuration,0.0,5.0);
     }
     
     void update(vector<Augmenta::Person*>& people)
@@ -60,12 +62,20 @@ public:
         
         for(auto & p : people)
         {
-            if(ofDist(p->centroid.x,p->centroid.y,_posIn,0.5) < _sizeInOut*0.6)
+            float x = p->centroid.x * _xRes;
+            float y = p->centroid.y * _yRes;
+            float xIn = _posIn * _xRes;
+            float yIn = 0.5 * _yRes;
+            float xOut = _posOut * _xRes;
+            float yOut = 0.5 * _yRes;
+            float s = _sizeInOut * _yRes * _radiusInOut;
+            
+            if(ofDist(x,y,xIn,yIn) < s)
             {
                 _someoneInIn = true;
             }
             
-            if(ofDist(p->centroid.x,p->centroid.y,_posOut,0.5) < _sizeInOut*0.6)
+            if(ofDist(x,y,xOut,yOut) < s)
             {
                 _someoneInOut = true;
             }
@@ -135,6 +145,10 @@ public:
     
     ofxTextureMovieClip _clipOutOff;
     ofxTextureMovieClip _clipOutOn;
+    
+    float _radiusInOut;
+    
+    float _fadeDuration;
 };
 
 //Allow easy access to zone settings
