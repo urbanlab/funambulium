@@ -9,6 +9,8 @@
 #ifndef horizon_h
 #define horizon_h
 
+#include "feathers.h"
+
 class Horizon
 {
 
@@ -37,18 +39,23 @@ public:
     void start()
     {
         _bg.play();
+        _bg.setPosition(0.0);
+        _bg.setPaused(false);
         _pos = 0.0;
     }
     
     void stop()
     {
-        _bg.stop();
+        //_bg.stop();
+        _bg.setPosition(0.0);
+        _bg.setPaused(true);
         _pos = 0.0;
     }
     
     void update(float pos)
     {
         pos = ofClamp(pos,0.0,1.0);
+        pos = ofMap(pos,S()._posIn,S()._posOut,0.0,1.0,true);
         
         if(pos > _pos)
             _pos = pos*(1-S()._smoothPos) + _pos * S()._smoothPos;

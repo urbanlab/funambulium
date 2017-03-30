@@ -41,7 +41,8 @@ public:
         _pos = ofPoint(-0.5,0.5);
         _someoneIn = false;
         
-        _particles = NULL;
+        _particlesFloor = NULL;
+        _particlesWall = NULL;
         //_effect = NULL;
         
         _hasEffect = false;
@@ -55,9 +56,13 @@ public:
         //    gui.addTitle("Effect");
         //    _effect->setupGui();
         //}
-        if(_particles != NULL)
+        if(_particlesFloor != NULL)
         {            
-            _particles->setupGui();
+            _particlesFloor->setupGui();
+        }
+        if(_particlesWall != NULL)
+        {
+            _particlesWall->setupGui();
         }
     }
     
@@ -67,8 +72,10 @@ public:
         
         _horizon.start();
         _earth.start();
-        if(_particles != NULL)
-            _particles->start();
+        if(_particlesFloor != NULL)
+            _particlesFloor->start();
+        if(_particlesWall != NULL)
+            _particlesWall->start();
         //if(_effect != NULL)
         //    _effect->stop();
     }
@@ -79,8 +86,10 @@ public:
         
         _horizon.stop();
         _earth.stop();
-        if(_particles != NULL)
-            _particles->stop();
+        if(_particlesFloor != NULL)
+            _particlesFloor->stop();
+        if(_particlesWall != NULL)
+            _particlesWall->stop();
         //if(_effect != NULL)
         //    _effect->stop();
     }
@@ -100,8 +109,10 @@ public:
         _horizon.update(_pos.x);
         _earth.update(_pos.x,_someoneIn);
         
-        if(_particles != NULL)
-            _particles->update(people);
+        if(_particlesFloor != NULL)
+            _particlesFloor->update(people);
+        if(_particlesWall != NULL)
+            _particlesWall->update(people);
         
         //if(_effect != NULL)
         //    _effect->update(people);
@@ -111,8 +122,8 @@ public:
     {
         _earth.draw();
         
-        if(_particles != NULL)
-            _particles->draw();
+        if(_particlesFloor != NULL)
+            _particlesFloor->draw();
         
         //if(_effect != NULL)
         //    _effect->draw();
@@ -121,6 +132,9 @@ public:
     void drawWall()
     {
         _horizon.draw();
+        
+        if(_particlesWall != NULL)
+            _particlesWall->draw();
     }
     
     void drawDebug()
@@ -135,7 +149,8 @@ public:
     ofPoint _pos;
     bool _someoneIn;
     
-    Particles* _particles;
+    Particles* _particlesFloor;
+    Particles* _particlesWall;
     //Effect* _effect;
     
     Horizon _horizon;
@@ -160,16 +175,20 @@ public:
         _scenarii.push_back(Scenario("0_UNLOCK",true));
         
         _scenarii.push_back(Scenario("1_FORET"));
-        _scenarii.back()._particles = new Leaves;
-        _scenarii.back()._particles->setup("1_FORET");
+        _scenarii.back()._particlesFloor = new Leaves;
+        _scenarii.back()._particlesFloor->setup("1_FORET");
     
         _scenarii.push_back(Scenario("2_LAC"));
         //_scenarii.back()._effect = new RippleEffect;
         //_scenarii.back()._effect->setup();
         //_scenarii.back()._effect->setTexture(_scenarii.back()._earth._bgI);
         _scenarii.back()._hasEffect = true;
-        _scenarii.back()._particles = new Fishes;
-        _scenarii.back()._particles->setup("2_LAC");
+        _scenarii.back()._particlesFloor = new Fishes;
+        _scenarii.back()._particlesFloor->setup("2_LAC");
+        _scenarii.back()._particlesWall = new Feathers;
+        _scenarii.back()._particlesWall->setup("2_LAC");
+        
+        _scenarii.push_back(Scenario("3_FINAL",true));
         
         _currentScenario = 0;
         _scenarii[_currentScenario].start();

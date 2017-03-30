@@ -14,7 +14,6 @@
 #define AU_OSC_PORT 12000
 
 #include "settings.h"
-#include "remote.h"
 #include "window.h"
 
 #include "kid.h"
