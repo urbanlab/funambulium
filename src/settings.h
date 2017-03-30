@@ -48,8 +48,8 @@ public:
     {
         gui.addTitle("Settings");
         gui.addSlider("SmoothPos",_smoothPos,0.0,1.0);
-        gui.addSlider("PosIn",_posOut,0.0,1.0);
-        gui.addSlider("PosOut",_posIn,0.0,1.0);
+        gui.addSlider("PosIn",_posIn,0.0,1.0);
+        gui.addSlider("PosOut",_posOut,0.0,1.0);
         gui.addSlider("SizeInOut",_sizeInOut,0.0,1.0);
     }
     

@@ -79,6 +79,8 @@ public:
     {
         gui.addTitle("RippleEffect");
         gui.addSlider("Damping",_damping,0.0,1.0);
+        gui.addSlider("Size",_size,0.0,100.0);
+        gui.addSlider("Velocity",_minVelocity,0.0,1.0);
     }
     
     void setTexture(ofTexture& tex)
@@ -107,10 +109,14 @@ public:
         ofSetColor(255);
         for(auto & p : people)
         {
-            ofDrawEllipse(p->centroid.x*S()._xRes,
-                          p->centroid.y*S()._yRes,
-                          10,
-                          10);
+            cout<<p->velocity.length()<<endl;
+            if(p->velocity.length() > _minVelocity/10.0)
+            {
+                ofDrawEllipse(p->centroid.x*S()._xRes,
+                              p->centroid.y*S()._yRes,
+                              _size,
+                              _size);
+            }
         }
         _ripples.end();
         _ripples.update();
@@ -141,6 +147,8 @@ public:
 public:
     
     float _damping;
+    float _size;
+    float _minVelocity;
     
     ofxBounce   _bounce;
     ofxRipples  _ripples;

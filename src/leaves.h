@@ -119,10 +119,10 @@ public:
         
         if(closestDist < S()._xRes && closestDist < LS()._repulseMaxDist)
         {
-            _pos += -closestPerson.getNormalized() * LS()._repulseMaxDist*LS()._repulseStrength;
+            _pos += -closestPerson.getNormalized() * closestDist * LS()._repulseStrength;
             
-            if(closestDist < LS()._repulseMaxDist * 2.1)
-                _isRepulsed = true;
+            //if(closestDist < LS()._repulseMaxDist * 2.1)
+            //    _isRepulsed = true;
         }
         //else
         //if(!_isRepulsed)

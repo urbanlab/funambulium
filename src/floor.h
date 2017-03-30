@@ -275,15 +275,15 @@ public:
         
         if(_hasPath)
         {
-            float x = S()._posIn * S()._xRes;// + 0.5 * S()._sizeInOut * S()._yRes;
+            float x = S()._posIn * S()._xRes + 0.25 * S()._sizeInOut * S()._yRes;
             float y = 0.0;
-            float w = S()._posOut * S()._xRes - x;// - 0.5 * S()._sizeInOut * S()._yRes;
+            float w = S()._posOut * S()._xRes - x - 0.25 * S()._sizeInOut * S()._yRes;
             float h = S()._yRes;
-            
-            _clipPathOff.drawFrame(x,y,w,h);
             
             if(_someoneIn)
                 _clipPathOn.drawFrame(x,y,w,h);
+            else
+                _clipPathOff.drawFrame(x,y,w,h);
         }
     }
     
