@@ -98,9 +98,11 @@ public:
         _posInit = _pos;
         _angle = ofRandom(0,360);
         
-        _hasClip = false;
+//        _hasClip = false;
         
         _isRepulsed = false;
+        
+        _clip = NULL;
     }
     
     void update(vector<Augmenta::Person*>& people)
@@ -151,21 +153,22 @@ public:
     {
         ofSetColor(ofColor::white);
         
-        if(_hasClip)
-        {
+//        if(_hasClip)
+//        {
             ofPushMatrix();
             ofTranslate(_pos);
             ofRotate(_angle, 0, 0, 1);
             
             ofSetColor(255);
-            _clip.drawFrame(-PS()._radius/2.0,-PS()._radius/2.0,PS()._radius,PS(). _radius);
+            //_clip.drawFrame(-PS()._radius/2.0,-PS()._radius/2.0,PS()._radius,PS(). _radius);
+            _clip->draw(-PS()._radius/2.0,-PS()._radius/2.0,PS()._radius,PS(). _radius);
             
             ofPopMatrix();
-        }
-        else
-        {
-            drawDebug();
-        }
+//        }
+//        else
+//        {
+//            drawDebug();
+//        }
     }
     
     void drawDebug()
@@ -182,9 +185,10 @@ public:
     ofVec2f _pos;
     float _angle;
     
-    ofxTextureMovieClip _clip;
-    bool _hasClip;
-
+//    ofxTextureMovieClip _clip;
+//    bool _hasClip;
+    ofImage* _clip;
+    
     bool _isRepulsed;
 };
 
@@ -201,9 +205,9 @@ public:
     {
         PS().setup();
         
-        _species.push_back(Species(path+"/"+FEATHER1,"Feather1"));
-        _species.push_back(Species(path+"/"+FEATHER2,"Feather2"));
-        _species.push_back(Species(path+"/"+FEATHER3,"Feather3"));
+        _species.push_back(StaticSpecies(path+"/"+FEATHER1+"/p.png"));
+        _species.push_back(StaticSpecies(path+"/"+FEATHER2+"/p.png"));
+        _species.push_back(StaticSpecies(path+"/"+FEATHER3+"/p.png"));
         
         _currentSpecies = 0;
         
@@ -235,17 +239,18 @@ public:
     {
         _feathers.push_back(Feather(pos.x,pos.y));
         
-        if(_species[_currentSpecies]._hasImgSeq)
-        {
-            _feathers.back()._hasClip = true;
-            _feathers.back()._clip.init(&_species[_currentSpecies]._imgSeq,1.0);
+//        if(_species[_currentSpecies]._hasImgSeq)
+//        {
+//            _feathers.back()._hasClip = true;
+//            _feathers.back()._clip.init(&_species[_currentSpecies]._imgSeq,1.0);
+            _feathers.back()._clip = &_species[_currentSpecies]._tex;
             _currentSpecies++;
             _currentSpecies %= _species.size();
-        }
-        else
-        {
-            _feathers.back()._hasClip = false;
-        }
+//        }
+//        else
+//        {
+//            _feathers.back()._hasClip = false;
+//        }
         
         return &(_feathers.back());
     }
@@ -287,7 +292,8 @@ public:
     
 public:
     
-    vector<Species> _species;
+    //vector<Species> _species;
+    vector<StaticSpecies> _species;
     int _currentSpecies;
     
     list<Feather> _feathers;

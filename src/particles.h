@@ -36,6 +36,29 @@ public:
     bool _hasImgSeq;
 };
 
+class StaticSpecies
+{
+    
+public:
+    StaticSpecies(string name)
+    {
+        setup(name);
+    }
+    
+    ~StaticSpecies()
+    {
+    }
+    
+    void setup(string name)
+    {
+        _tex.load(name);
+    }
+    
+public:
+    
+    ofImage _tex;
+};
+
 class Particles
 {
     
