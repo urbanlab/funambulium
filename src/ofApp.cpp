@@ -102,6 +102,27 @@ void ofApp::oscRemote()
             if(m.getArgAsInt32(0))
                 _scenarii.callNext();
         }
+        
+        if(m.getAddress() == "/Remote/ROTX")
+            _rotX = m.getArgAsBool(0);
+        if(m.getAddress() == "/Remote/ROTY")
+            _rotY = m.getArgAsBool(0);
+        if(m.getAddress() == "/Remote/ZOOMZ")
+            _zoomZ = m.getArgAsBool(0);
+        
+        if(m.getAddress() == "/Remote/RotXAmplitude")
+            _rotXAmplitude = m.getArgAsFloat(0);
+        if(m.getAddress() == "/Remote/RotYAmplitude")
+            _rotYAmplitude = m.getArgAsFloat(0);
+        if(m.getAddress() == "/Remote/ZoomZAmplitude")
+            _zoomZAmplitude = m.getArgAsFloat(0);
+        
+        if(m.getAddress() == "/Remote/RotXSpeed")
+            _rotXSpeed = m.getArgAsFloat(0);
+        if(m.getAddress() == "/Remote/RotYSpeed")
+            _rotYSpeed = m.getArgAsFloat(0);
+        if(m.getAddress() == "/Remote/ZoomZSpeed")
+            _zoomZSpeed = m.getArgAsFloat(0);
     }
 }
 
@@ -127,10 +148,30 @@ void ofApp::update()
     ofClear(0);
     ofSetColor(255);
     
+    ofPushMatrix();
+    
+    if(_rotX)
+    {
+        ofTranslate(S()._xRes/2.0,S()._yRes/2.0);
+        ofRotateX(ofMap(_rotXAmplitude,0.0,1.0,0.0,S()._rotXMaxAmplitude)*sin(ofGetElapsedTimef()*ofMap(_rotXSpeed,0.0,1.0,0.0,S()._rotXMaxSpeed)));
+        ofTranslate(-S()._xRes/2.0,-S()._yRes/2.0);
+    }
+    if(_rotY)
+    {
+        ofTranslate(S()._xRes/2.0,S()._yRes/2.0);
+        ofRotateY(ofMap(_rotYAmplitude,0.0,1.0,0.0,S()._rotYMaxAmplitude)*sin(ofGetElapsedTimef()*ofMap(_rotYSpeed,0.0,1.0,0.0,S()._rotYMaxSpeed)));
+        ofTranslate(-S()._xRes/2.0,-S()._yRes/2.0);
+    }
+    if(_zoomZ)
+    {
+        ofTranslate(0,0,ofMap(_zoomZAmplitude,0.0,1.0,0.0,S()._zoomZMaxAmplitude)*sin(ofGetElapsedTimef()*ofMap(_zoomZSpeed,0.0,1.0,0.0,S()._zoomZMaxSpeed)));
+    }
     _scenarii.drawFloor();
     
     if(_scenarii._started)
         S().drawInOut();
+    
+    ofPopMatrix();
     
     if(S()._debug)
     {

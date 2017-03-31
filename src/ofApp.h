@@ -66,4 +66,17 @@ class ofApp : public ofBaseApp
         //OSC REMOTE
         ofxOscReceiver _receiver;
         ofxOscSender _sender;
+    
+        //TRANSFORMATION
+        bool _rotX;
+        float _rotXAmplitude;
+        float _rotXSpeed;
+    
+        bool _rotY;
+        float _rotYAmplitude;
+        float _rotYSpeed;
+    
+        bool _zoomZ;
+        float _zoomZAmplitude;
+        float _zoomZSpeed;
 };

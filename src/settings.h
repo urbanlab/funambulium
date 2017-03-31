@@ -53,6 +53,13 @@ public:
         gui.addSlider("SizeInOut",_sizeInOut,0.0,1.0);
         gui.addSlider("RadiusInOut",_radiusInOut,0.0,1.0);
         gui.addSlider("FadeDuration",_fadeDuration,0.0,5.0);
+        gui.addTitle("Transformation");
+        gui.addSlider("RotXMaxAmplitude",_rotXMaxAmplitude,0.0,90.0);
+        gui.addSlider("RotXMaxSpeed",_rotXMaxSpeed,0.0,10.0);
+        gui.addSlider("RotYMaxAmplitude",_rotYMaxAmplitude,0.0,90.0);
+        gui.addSlider("RotYMaxSpeed",_rotYMaxSpeed,0.0,10.0);
+        gui.addSlider("ZoomZMaxAmplitude",_zoomZMaxAmplitude,0.0,400.0);
+        gui.addSlider("ZoomZMaxSpeed",_zoomZMaxSpeed,0.0,10.0);
     }
     
     void update(vector<Augmenta::Person*>& people)
@@ -149,6 +156,13 @@ public:
     float _radiusInOut;
     
     float _fadeDuration;
+    
+    float _rotXMaxAmplitude;
+    float _rotXMaxSpeed;
+    float _rotYMaxAmplitude;
+    float _rotYMaxSpeed;
+    float _zoomZMaxAmplitude;
+    float _zoomZMaxSpeed;
 };
 
 //Allow easy access to zone settings
