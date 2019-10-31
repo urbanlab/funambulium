@@ -96,6 +96,7 @@ cd OF/apps/urbanlab/funambulium
 make
 make run
 ```
+* On pourra retravailler le projet à condition d'avoir installer QTCreator 4.1.0[https://download.qt.io/archive/qtcreator/4.1/4.1.0/]
 * Penser à corriger l'ip dans le fichier ip.txt qui est dans la dossier data
 * Penser à bien installer les pilotes de la carte graphique de la machine où lancer le dispositif
 
