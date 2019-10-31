@@ -64,6 +64,25 @@ Pour **bouger le sol**, appuyer sur *RotX* ou *RotY* ou *RotZ* puis utiliser les
 
 ## Réinstallation
 * Télécharger et installer openframeworks à partir du site officiel: http://openframeworks.cc/download/
+    * Version 0.9.8 uniquement (celle-ci n'est compatible qu'avec ubuntu antérieurs à 16.04) : https://openframeworks.cc/download/older/
+    * Pour l'installation, suivre les instructions ici [https://openframeworks.cc/setup/linux-install/]
+    * Cette installation commence par lors du déroulement du script
+    ```
+    cd OF/scripts/linux/ubuntu
+    sudo ./install_dependencies.sh
+    ```
+    * Quand apparaît la question sur les packages spécifiques 16.04, répondre non
+    * compiler OpenFrameworks
+    ```
+    cd OF/scripts/linux
+    ./compileOF.sh
+    ```
+    * Vérifier l'install d'OF en compilant et éxécutant un exemple
+    ```
+    cd OF/examples/graphics/polygonExample
+    make
+    make run
+    ```
 * De même installer ofxAugmenta et vérifier qu'un des exemples fonctionne bien: https://github.com/Theoriz/ofxAugmenta
 * Télécharger ou cloner l'archive github du projet funambulus : https://github.com/urbanlab/funambulium
 * Vérifier que dans le dossier de openframeworks (généralement nommé of_v0.9.8_linux64_release) on trouve bien le fichier suivant: apps/urbanlab/funambulus. Où funambulus est l'archive téléchargée depuis le git.
