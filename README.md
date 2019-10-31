@@ -90,13 +90,12 @@ Pour **bouger le sol**, appuyer sur *RotX* ou *RotY* ou *RotZ* puis utiliser les
 * Remplacer le dossier "addons" d'openframeworks par les fichiers addons1 et addons2 décompressés (ensembles, pour que le contenu des deux soit directement dans "addons")
 * Meme manipulation avec le dossier "data" contenu dans app/urbanlab/funambulus/bin (il faut que dans ce dossier "data" se trouvent ensembles le contenu des archives data1 à data5)
 * Voir les screenshots de la configuration présents dans pourInstallation sur le depot github pour une meilleur compréhension
-* Utiliser un terminal pour installer gstreamer
-* Pour installer les plugin de gstreamer (voir commentaire du 25/07/2017)
-         * Ouvrir un terminal et se placer dans le dossier apps/urbanlab/funambulus, puis exécuter la commande make
-         * Corriger si besoin les erreurs qui apparaissent, et mettre à jour les fonctions ou attributs "deprecated" (analyser le contenu de la console)
-* La réussite du make entrainera la création d'un exécutable funambulus dans apps/urbanlab/funambulus/bin: lancer cet exécutable depuis un terminal. 
-        * Corriger les différentes erreurs pouvant apparaitre. 
-        * L'erreur Your GStreamer installation is missing a plug-in indique qu'il faut installer d'autres plugins de gstreamer. Puisque que rien ne spécifie quel(s) plugin(s), en installer autant que possible jusqu'à ce que cette erreur ne soit plus levée.
+* Compiler
+```
+cd OF/apps/urbanlab/funambulium
+make
+make run
+```
 * Penser à corriger l'ip dans le fichier ip.txt qui est dans la dossier data
 * Penser à bien installer les pilotes de la carte graphique de la machine où lancer le dispositif
 
