@@ -28,9 +28,5 @@
 *.out
 *.app
 
-# Adding more specific to Funambulus project
-!/bin
-!/bin/*
-
 .DS_Store
 

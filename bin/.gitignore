@@ -1,0 +1,7 @@
+# Retrieve the content of the packet
+!*
+
+# Don't commit datas
+# /data/*
+
+.DS_Store

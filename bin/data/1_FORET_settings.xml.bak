@@ -1,0 +1,18 @@
+<controls>
+    <SliderInt_MaxLeafes>
+        <name>MaxLeafes</name>
+        <value>931</value>
+    </SliderInt_MaxLeafes>
+    <SliderFloat_Radius>
+        <name>Radius</name>
+        <value>107.500000000</value>
+    </SliderFloat_Radius>
+    <SliderFloat_RepulseStrength>
+        <name>RepulseStrength</name>
+        <value>0.075000003</value>
+    </SliderFloat_RepulseStrength>
+    <SliderFloat_RepulseMaxDist>
+        <name>RepulseMaxDist</name>
+        <value>138.000000000</value>
+    </SliderFloat_RepulseMaxDist>
+</controls>
