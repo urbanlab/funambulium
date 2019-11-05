@@ -26,10 +26,11 @@
 # Executables
 *.exe
 *.out
-# *.app
+*.app
+
+# Adding more specific to Funambulus project
+!/bin
+!/bin/*
 
 .DS_Store
 
-# Adding more specific to Funambulus project
-/bin/data/*
-!/bin/*.app
