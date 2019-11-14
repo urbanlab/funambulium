@@ -30,6 +30,3 @@
 
 .DS_Store
 
-# Adding more specific to Funambulus project
-/bin/data/*
-!/bin/*.app
