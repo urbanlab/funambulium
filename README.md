@@ -21,8 +21,8 @@ Pour **bouger le sol**, appuyer sur *RotX* ou *RotY* ou *RotZ* puis utiliser les
 
 ## Matériel
 * 2 machines sous Ubuntu
-      * 1 PC pour la captation Kinect (*Zotac standard*)
-      * 1 PC Type PC de VR (*Fractal VR Ready*)
+  * 1 PC pour la captation Kinect / Augmenta (*Zotac standard*)
+  * 1 PC Type PC de VR (*Fractal VR Ready*)
 * 2 VP (voire 3 pour les ombres portées)
 * 2 zones de projections (mur frontal + sol)
 * 1 Ipad avec TouchOSC
@@ -30,17 +30,28 @@ Pour **bouger le sol**, appuyer sur *RotX* ou *RotY* ou *RotZ* puis utiliser les
 
 ## Setup / Démarrage
 ### Procédure manuelle de démarrage 
-1. Allumer VP Smartsign + VP derrière la paroi frontale
-1. Allumer Smartsign en monitoring (192.168.71.58) > pour vérifier le bon allumage, lumière rouge sur la kinect
+1. Allumer les 2 VP (au dessus de l'install + derrière l'écran)
+1. Allumer PC de captation
+  1. pour vérifier le bon allumage, lumière rouge sur la kinect
 1. Allumer PC d'affichage en haut de la structure
-1. Démarrer AugmentaFusion sur le Mac mini
-      1. Dans AugmentaFusion, aller dans File -> Open Recent File ("Funambulum.fusion")
-      1. Dans AugmentaFusion, aller dans Panels > Layout > _lastSession
-1. : Avec la souris du PC d'affichage, lancer le programme via le raccourci desktop "Funambulium"
-    1. S'assurer que l'ont soit en plein écran (en cliquant sur l'icône Expand de la fenêtre)
+1. Avec la souris du PC d'affichage, lancer le programme via le raccourci desktop "Funambulium" (démarrage auto)
+    1. S'assurer que l'on soit en plein écran (en cliquant sur l'icône Expand de la fenêtre)
     1. Avec le clavier du PC d'affichage, entrer "d" (debug), puis "shift+w", puis à nouveau "d" : le mapping devrait être calé
 1. Lancer TouchOSC sur l'iPad blanc du lab
-     1. Vérifier que l'IP dans TouchOSC soit 192.168.71.200 et que "Layout" soit Funambulium
+     1. Vérifier que l'IP dans TouchOSC soit celui du PC d'affichage (*voir sections adresses IP*) 
+     1. Vérifier que le "Layout" soit Funambulium
+1. Pour vérifier qu'Augmenta fonctionne :
+  1. Démarrer un explorateur web pour voir l'interface de monitoring
+     1. Si vous etes sur le PC Augmenta, tapez 127.0.0.1 dans la barre d'adresse
+     1. Si vous etes sur une autre machine, tapez l'adresse IP du PC augmenta dans la barre d'adresse
+     
+### Adresses IP
+les machines sont branchées par câble sur le réseau erasme-dmz et ont les adresses suivantes :
+* PC de captation Augmenta : xxx.xxx.xxx.xxx
+* PC d'affichage Mapping : xxx.xxx.xxx.xxx
+#### Ports OSC attendus
+PC augmenta -> PC d'affichage : 12000 *(à vérifier ou paramétrer sur le monitoring Augmenta)* 
+Tablette iPad / TouchOSC -> PC d'affichage : 12011 *(à vérifier ou paramétrer dans Touch OSC)*
 
 ### Mapping sur le PC d'affichage (Fractl VR Ready)
 * Appuyer sur Shift+W (mode wrapping)
@@ -55,7 +66,7 @@ Pour **bouger le sol**, appuyer sur *RotX* ou *RotY* ou *RotZ* puis utiliser les
 * Pour sortir du mode Wrapping : Shift+W (ne pas sortir pour garder le mapping)
 * Pour sortir du mode Debug : D
 
-### MAPPING AUGMENTA sur le Mac Mini (via PC Smartsign)
+### MAPPING AUGMENTA sur le Mac Mini (Zotac)
 * Ouvrir AugmentaFusion sur le Mac Mini
 * Avec l'iPad appuyer sur Start/Stop dans TouchOSC, puis appuyer sur Next jusqu'à aller dans le scénario avec les poissons et flamands roses
 * Demander à une personne de se positionner sur le cercle de départ
@@ -63,16 +74,20 @@ Pour **bouger le sol**, appuyer sur *RotX* ou *RotY* ou *RotZ* puis utiliser les
 * Au besoin, maintenir Shift pour faire tourner la croix rouge
 
 ## Réinstallation
+### PC Augmenta
+** Pas de procédure de réinstallation **
+
+### PC d'affichage
 * Télécharger et installer openframeworks à partir du site officiel: http://openframeworks.cc/download/
     * Version 0.9.8 uniquement (celle-ci n'est compatible qu'avec ubuntu antérieurs à 16.04) : https://openframeworks.cc/download/older/
     * Pour l'installation, suivre les instructions ici [https://openframeworks.cc/setup/linux-install/]
-    * Cette installation commence par lors du déroulement du script
+    * Cette installation commence par le déroulement de ce script
     ```
     cd OF/scripts/linux/ubuntu
     sudo ./install_dependencies.sh
     ```
     * Quand apparaît la question sur les packages spécifiques 16.04, répondre non
-    * compiler OpenFrameworks
+    * compiler OpenFrameworks avec ce script
     ```
     cd OF/scripts/linux
     ./compileOF.sh
@@ -84,11 +99,16 @@ Pour **bouger le sol**, appuyer sur *RotX* ou *RotY* ou *RotZ* puis utiliser les
     make run
     ```
 * De même installer ofxAugmenta et vérifier qu'un des exemples fonctionne bien: https://github.com/Theoriz/ofxAugmenta
-* Télécharger ou cloner l'archive github du projet funambulus : https://github.com/urbanlab/funambulium
-* Vérifier que dans le dossier de openframeworks (généralement nommé of_v0.9.8_linux64_release) on trouve bien le fichier suivant: apps/urbanlab/funambulus. Où funambulus est l'archive téléchargée depuis le git.
-* Décompresser l'archive "pourInstallation" contenue dans le dépôt git de funambulus
-* Remplacer le dossier "addons" d'openframeworks par les fichiers addons1 et addons2 décompressés (ensembles, pour que le contenu des deux soit directement dans "addons")
-* Meme manipulation avec le dossier "data" contenu dans app/urbanlab/funambulus/bin (il faut que dans ce dossier "data" se trouvent ensembles le contenu des archives data1 à data5)
+* Télécharger ou cloner l'archive github du projet funambulus : https://github.com/urbanlab/funambulium . Cette archive contient 
+  * le code source *(dossier src)*
+  * les addons *(dossier pour installation, fichiers addons_xxx.zip)*
+  * les app compilées *(dossier bin)*
+* Décompresser l'archive *pour installation/data.zip* doit etre décompressé dans le dossier *0F_0.9.8/apps/funambulium/bin/data*
+* les app compilées doivent suffire à démarrer le projet. 
+  * Double-cliquer sur *funambulium-ubuntu* pour démarrer l'installation
+* Pour les addons
+  * certains sont déjà fournis dans le repo d'openframeworks; par sécurité, on peut les trouver dans *addons_fournis_par_OF.zip*
+  * d'autres sont requis. Ils sont dans le fichier *addons_supplementaires_requis* et doivent être extraits dans *OF_0.9.8/addons*
 * Voir les screenshots de la configuration présents dans pourInstallation sur le depot github pour une meilleur compréhension
 * Compiler
 ```
