@@ -78,6 +78,10 @@ Tablette iPad / TouchOSC -> PC d'affichage : 12011 *(à vérifier ou paramétrer
 ** Pas de procédure de réinstallation **
 
 ### PC d'affichage
+#### to do : réinstallation partielle (lancement)
+
+#### to do : réinstallation complète (recompilation)
+
 * Télécharger et installer openframeworks à partir du site officiel: http://openframeworks.cc/download/
     * Version 0.9.8 uniquement (celle-ci n'est compatible qu'avec ubuntu antérieurs à 16.04) : https://openframeworks.cc/download/older/
     * Pour l'installation, suivre les instructions ici [https://openframeworks.cc/setup/linux-install/]
