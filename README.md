@@ -1,3 +1,14 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+!!!! Warning !                 !!!!
+
+!!!! OLD BRANCH - Do not merge !!!!
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+# Cette branche correspond à une installation non fonctionnelle sous linux
+--------------
+
 # funambulus
 ## Description du projet
 
