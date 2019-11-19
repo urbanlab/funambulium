@@ -46,14 +46,20 @@ Pour **bouger le sol**, appuyer sur *RotX* ou *RotY* ou *RotZ* puis utiliser les
      1. Si vous etes sur une autre machine, tapez l'adresse IP du PC augmenta dans la barre d'adresse
      
 ### Adresses IP
-les machines sont branchées par câble sur le réseau erasme-dmz et ont les adresses suivantes :
-
-* PC de captation Augmenta : xxx.xxx.xxx.xxx
-* PC d'affichage Mapping : xxx.xxx.xxx.xxx
+les machines sont connectées en WiFi le réseau erasme-dmz et ont les adresses suivantes :
+* PC de captation Augmenta : 192.168.61.129
+* PC d'affichage Mapping : 192.168.61.120
 
 #### Ports OSC attendus
 PC augmenta -> PC d'affichage : 12000 *(à vérifier ou paramétrer sur le monitoring Augmenta)* 
 Tablette iPad / TouchOSC -> PC d'affichage : 12011 *(à vérifier ou paramétrer dans Touch OSC)*
+
+Ces informations (adresses et ports) sont nécessaires pour les paramétrages suivants :
+* renseigner l'adresse IP, et le port du PC d'affichage sur Augmenta
+* renseigner l'adresse IP, et le port du PC d'affichage sur TouchOSC (Tablette)
+* en tapant l'adresse IP du PC Augmenta dans un navigateur, vous pourrez monitorer et paramétrer la captation
+
+**Changer les adresses IP aprés branchement des PC sur le réseau filaire**
 
 ### Mapping sur le PC d'affichage (Fractl VR Ready)
 * Appuyer sur Shift+W (mode wrapping)
