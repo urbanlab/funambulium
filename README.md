@@ -52,6 +52,7 @@ les machines sont connectées en WiFi le réseau erasme-dmz et ont les adresses 
 
 #### Ports OSC attendus
 PC augmenta -> PC d'affichage : 12000 *(à vérifier ou paramétrer sur le monitoring Augmenta)* 
+
 Tablette iPad / TouchOSC -> PC d'affichage : 12011 *(à vérifier ou paramétrer dans Touch OSC)*
 
 Ces informations (adresses et ports) sont nécessaires pour les paramétrages suivants :
@@ -68,11 +69,13 @@ Ces informations (adresses et ports) sont nécessaires pour les paramétrages su
 * Pour plus de précisions, sélectionner les ancres au clavier avec les touches 1 , 2 , 3 , 4 (pour retirer l'affichage du menu : Espace)
 * Positionner les ancres au clavier avec les flèches
 
-* Pour sauvegarder : ESC
+#### Raccourcis clavier
+* Pour sauvegarder : Esc
 * Pour mettre en plein écran : f
 * Pour sortir du mode Wrapping : Shift+W (ne pas sortir pour garder le mapping)
 * Pour changer d'écran de travail : w
-* Pour sortir du mode Debug : D
+* Pour sortir/entrer du mode Debug : d
+* Pour afficher/cacher les menus du mode debug : Espace
 
 ## Réinstallation
 ### PC d'affichage
