@@ -57,23 +57,16 @@ Tablette iPad / TouchOSC -> PC d'affichage : 12011 *(à vérifier ou paramétrer
 
 ### Mapping sur le PC d'affichage (Fractl VR Ready)
 * Appuyer sur Shift+W (mode wrapping)
+* Appuyer sur D (DEBUG), un contour rouge apparait
 * Identifier sur quel écran on fait le mapping (un écran à la fois)
 * Pour plus de précisions, sélectionner les ancres au clavier avec les touches 1 , 2 , 3 , 4 (pour retirer l'affichage du menu : Espace)
-* Pour changer d'écran de travail : w
-* Positionner les ancres aux bons endroits avec la souris
-* Appuyer sur D (DEBUG), un contour rouge apparait
 * Positionner les ancres au clavier avec les flèches
 
-* Pour sauvegarder : Echap
+* Pour sauvegarder : ESC
+* Pour mettre en plein écran : f
 * Pour sortir du mode Wrapping : Shift+W (ne pas sortir pour garder le mapping)
+* Pour changer d'écran de travail : w
 * Pour sortir du mode Debug : D
-
-### MAPPING AUGMENTA sur le Mac Mini (Zotac)
-* Ouvrir AugmentaFusion sur le Mac Mini
-* Avec l'iPad appuyer sur Start/Stop dans TouchOSC, puis appuyer sur Next jusqu'à aller dans le scénario avec les poissons et flamands roses
-* Demander à une personne de se positionner sur le cercle de départ
-* Déplacer la croix rouge dans **Merger** pour faire correspondre la position du joueur avec la détection
-* Au besoin, maintenir Shift pour faire tourner la croix rouge
 
 ## Réinstallation
 ### PC d'affichage
@@ -99,7 +92,6 @@ Tablette iPad / TouchOSC -> PC d'affichage : 12011 *(à vérifier ou paramétrer
     make
     make run
     ```
-* De même installer ofxAugmenta et vérifier qu'un des exemples fonctionne bien: https://github.com/Theoriz/ofxAugmenta
 * Télécharger ou cloner l'archive github du projet funambulus : https://github.com/urbanlab/funambulium . Cette archive contient 
   * le code source *(dossier src)*
   * les addons *(dossier pour installation, fichiers addons_xxx.zip)*
@@ -121,10 +113,16 @@ make run
 * Penser à corriger l'ip dans le fichier ip.txt qui est dans la dossier data. C'est l'adresse d'envoi des paquets OSC depuis le dispositif. (*Feature à priori obsoléte*)
 
 #### Réinstallation partielle (lancement)
-
+voir réinstallation complète
+* Télécharger et installer OpenFrameworks
+* Télécharger ou cloner l'archive github du projet funambulus
+* Décompresser les datas dans le dossier *bin/data*
+* Décompresser les addons dans le dossier *OF_0.9.8/addons*
+* Pas besoin de compilation, vous pouvez lancer directement l'application *funambulium-ubuntu*
 
 ### Réinstallation PC Augmenta
-**Pas de procédure connue de réinstallation, contactez [Theoriz](https://www.theoriz.com) pour plus d'informations**
+**Pas de procédure connue de réinstallation d'Augmenta**
+**Contactez [Theoriz](https://www.theoriz.com) pour plus d'informations**
 
 ## Bugs connus
 * Dans Augmenta, toujours saisir une adresse IP de destination des paquets OSC valide
