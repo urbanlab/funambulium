@@ -47,8 +47,10 @@ Pour **bouger le sol**, appuyer sur *RotX* ou *RotY* ou *RotZ* puis utiliser les
      
 ### Adresses IP
 les machines sont branchées par câble sur le réseau erasme-dmz et ont les adresses suivantes :
+
 * PC de captation Augmenta : xxx.xxx.xxx.xxx
 * PC d'affichage Mapping : xxx.xxx.xxx.xxx
+
 #### Ports OSC attendus
 PC augmenta -> PC d'affichage : 12000 *(à vérifier ou paramétrer sur le monitoring Augmenta)* 
 Tablette iPad / TouchOSC -> PC d'affichage : 12011 *(à vérifier ou paramétrer dans Touch OSC)*
@@ -74,13 +76,8 @@ Tablette iPad / TouchOSC -> PC d'affichage : 12011 *(à vérifier ou paramétrer
 * Au besoin, maintenir Shift pour faire tourner la croix rouge
 
 ## Réinstallation
-### PC Augmenta
-** Pas de procédure de réinstallation **
-
 ### PC d'affichage
-#### to do : réinstallation partielle (lancement)
-
-#### to do : réinstallation complète (recompilation)
+#### Réinstallation complète (pour recompilation)
 
 * Télécharger et installer openframeworks à partir du site officiel: http://openframeworks.cc/download/
     * Version 0.9.8 uniquement (celle-ci n'est compatible qu'avec ubuntu antérieurs à 16.04) : https://openframeworks.cc/download/older/
@@ -107,9 +104,9 @@ Tablette iPad / TouchOSC -> PC d'affichage : 12011 *(à vérifier ou paramétrer
   * le code source *(dossier src)*
   * les addons *(dossier pour installation, fichiers addons_xxx.zip)*
   * les app compilées *(dossier bin)*
-* Décompresser l'archive *pour installation/data.zip* doit etre décompressé dans le dossier *0F_0.9.8/apps/funambulium/bin/data*
+* Décompresser l'archive *pour installation/data.zip* dans le dossier *0F_0.9.8/apps/funambulium/bin/data*
 * les app compilées doivent suffire à démarrer le projet. 
-  * Double-cliquer sur *funambulium-ubuntu* pour démarrer l'installation
+  * Double-cliquer sur *funambulium-xxxx* pour démarrer l'installation
 * Pour les addons
   * certains sont déjà fournis dans le repo d'openframeworks; par sécurité, on peut les trouver dans *addons_fournis_par_OF.zip*
   * d'autres sont requis. Ils sont dans le fichier *addons_supplementaires_requis* et doivent être extraits dans *OF_0.9.8/addons*
@@ -121,8 +118,13 @@ make
 make run
 ```
 * On pourra retravailler le projet à condition d'avoir installer QTCreator 4.1.0[https://download.qt.io/archive/qtcreator/4.1/4.1.0/]
-* Penser à corriger l'ip dans le fichier ip.txt qui est dans la dossier data
-* Penser à bien installer les pilotes de la carte graphique de la machine où lancer le dispositif
+* Penser à corriger l'ip dans le fichier ip.txt qui est dans la dossier data. C'est l'adresse d'envoi des paquets OSC depuis le dispositif. (*Feature à priori obsoléte*)
+
+#### Réinstallation partielle (lancement)
+
+
+### Réinstallation PC Augmenta
+**Pas de procédure connue de réinstallation, contactez [Theoriz](https://www.theoriz.com) pour plus d'informations**
 
 ## Bugs connus
 * Dans Augmenta, toujours saisir une adresse IP de destination des paquets OSC valide
@@ -130,3 +132,5 @@ make run
        * Saisir et appuyer sur **Add**
        * L'adresse IP apparait alors dans le cadre **Global information** dans le champ **Output**
 * Parfois la connexion à Augmenta Fusion ne se fait pas. Il faut le reconnecter manuellement -> voir étape 4.1 de la procédure d'allumage
+* Risque de plantage de la machine (redémarrage sauvage de la session) lors des branchements physiques des câbles HDMI. Installer et activer les pilotes NVIDIA de la carte graphique de la machine où lancer le dispositif.
+* Problèmes d'édition du projet via QT Creator, plus globalement le project creator d'openframeworks n'est pas opérationnel dans cette configuration : https://forum.openframeworks.cc/t/of-0-9-8-qt-creator-projects-not-compiling/33777
